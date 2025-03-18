@@ -1,0 +1,89 @@
+body {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    background-color: #4a4a4a;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    font-size: 2rem;
+}
+
+.search-section {
+    position: absolute; /* Positionner la section de recherche */
+    top: 50%; /* Ajustez cette valeur pour déplacer la barre de recherche vers le haut */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%); /* Ajuster pour centrer parfaitement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Pour s'assurer que la section prend toute la largeur */
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #d3d3d3;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 80%; /* Largeur de la barre de recherche */
+    max-width: 600px; /* Largeur maximale */
+}
+
+.btn-group {
+    position: absolute; /* Positionner les boutons au-dessus de l'input */
+    top: -2rem; /* Ajuster la position verticale */
+    left: 0.5px; /* Coller à gauche de l'input */
+    display: flex;
+}
+
+.btn-group button {
+    background-color: #d3d3d3;
+    color: #4a4a4a;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.btn-group button.active {
+    background-color: #b0b0b0;
+}
+
+.search-box input {
+    background-color: #d3d3d3;
+    color: #4a4a4a;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    width: 100%; /* Prendre toute la largeur de la barre de recherche */
+    border-radius: 0.5rem;
+    padding-right: 3rem; /* Ajouter de l'espace pour l'icône de recherche */
+}
+
+.search-icon {
+    background-color: transparent; /* Rendre le fond transparent */
+    border: none; /* Supprimer la bordure */
+    cursor: pointer; /* Changer le curseur pour indiquer que c'est cliquable */
+    position: absolute; /* Positionner l'icône à l'intérieur de l'input */
+    right: 1rem; /* Positionner à droite */
+    z-index: 1; /* S'assurer que l'icône est au-dessus de l'input */
+}
+
+.search-box .search-icon i {
+    color: #4a4a4a; /* Couleur de l'icône */
+    font-size: 1.2rem; /* Taille de l'icône */
+}
