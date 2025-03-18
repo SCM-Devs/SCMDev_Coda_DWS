@@ -1,5 +1,6 @@
 from flask import Flask
 
+
 def create_app():
     app = Flask(__name__)
     # Configuration de l'application (optionnel pour cette démo)
