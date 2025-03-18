@@ -1,7 +1,7 @@
 const cardData = [
-    { categorie: '', nom: '', marque: '', volume: '' },
-    { categorie: '', nom: '', marque: '', volume: '' },
-    { categorie: '', nom: '', marque: '', volume: '' }
+    { nom: '', marque: '', volume: '', categorie: '' },
+    { nom: '', marque: '', volume: '', categorie: '' },
+    { nom: '', marque: '', volume: '', categorie: '' }
 ];
 
 const cardContainer = document.getElementById('card-container');
@@ -11,10 +11,10 @@ cardData.forEach(data => {
     card.className = 'card';
     card.innerHTML = `
         <img src="https://placehold.co/256x192" alt="Placeholder image">
-        <p>Categorie : ${data.categorie}</p>
         <p>Nom : ${data.nom}</p>
         <p>Marque : ${data.marque}</p>
         <p>Volume : ${data.volume}</p>
+        <p>Categorie : ${data.categorie}</p>
     `;
     cardContainer.appendChild(card);
 });
