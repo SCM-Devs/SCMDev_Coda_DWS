@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.7.2-web/css/all.css') }}"> 
+</head> 
+<body>
+    <header>
+        <h1>Scraping Extime</h1>
+        <h2>Dernière mise à jour : XX/XX/XXXX</a>
+    </header>
+    <main>
+        <div class="search-line">
+            <div id="search-container" class="glass-effect">
+                <input type="text" placeholder="">
+                <button id="search-btn"></button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <div id="filtr-container" class="glass-effect">
+                <p>Filtrer  </p>
+                <button id="search-btn"></button><i class="fa-solid fa-caret-down"></i></i></button>
+            </div>
+        </div>
+
+        <div id="container-product">
+            {% for product in products %}
+                <div class="productCard">
+                    <div class="futureImg"></div>
+                    <div class="fastInformations">
+                        <p>Nom : {{ product.name }}</p>
+                        <p>Marque : {{ product.brand }}</p>
+                        <p>Volume : {{ product.volume }}</p>
+                        <p>Catégorie : {{ product.categorie }}</p>
+                        <!-- <p>Poids net : {{ product.net_weight }}</p> -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+        
+
+    </main>
+</body>
+</html>
