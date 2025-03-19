@@ -1,4 +1,2 @@
-# from . import db
-
-# class Product(db.Model):
-    
+# class Product:
+#     def __init__(self, name)
