@@ -5,26 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DWS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
-</head>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.7.2-web/css/all.css') }}"> -->
+</head> 
 <body>
     <header>
-        <h1>DWS</h1>
-        <a href="{{ url_for('main.about') }}">Aller à la page À propos</a>
-        <div class="profile"></div>
+        <h1>Scraping Extime</h1>
+        <h2>Dernière mise à jour : XX/XX/XXXX</a>
     </header>
     <main>
-        <h1>Bienvenue, {{ name }} !</h1>
-        <div class="search-container">
-            <div class="tabs">
-                <button class="active">URL</button>
-                <button>EAN</button>
+        <div class="search-line">
+            <div id="search-container" class="glass-effect">
+                <input type="text" placeholder="">
+                <button id="search-btn"></button><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
-            <input type="text" placeholder="">
-            <button class="search-btn">
-                🔍
-            </button>
+
+            <div id="filtr-container" class="glass-effect">
+                <p>Filtrer  </p>
+                <button id="search-btn"></button><i class="fa-solid fa-caret-down"></i></i></button>
+            </div>
         </div>
+
+        <div id="container-product">
+            {% for product in products %}
+                <div class="productCard">
+                    <div class="futureImg"></div>
+                        <div class="fastInformations">
+                            <p>Nom : {{ product.name }}</p>
+                            <p>Marque : {{ product.brand }}</p>
+                            <p>Volume : {{ product.volume }}</p>
+                            <p>Catégorie : {{ product.categorie }}</p>
+                            <p>Poids net : {{ product.net_weight }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+        
+
     </main>
 </body>
 </html>
