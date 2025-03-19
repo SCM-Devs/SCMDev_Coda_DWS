@@ -1,8 +1,36 @@
-{% extends "index.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DWS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.7.2-web/css/all.css') }}"> 
+</head> 
+<body>
+    <header>
+        <h1>Scraping Extime</h1>
+        <h2>Dernière mise à jour : XX/XX/XXXX</a>
+    </header>
+    <main>
+        <button type="button"><i class="fa-solid fa-caret-left"></i>Retour</button>
 
-{% block title %}Accueil{% endblock %}
+        <div id="sheet">
+            <div id="informations">
+                <h2>Nom du produits</h2>
+                <p>Catégories : </p>
+                <p>Marque : </p>
+                <p>Volume : </p>
+                <p>Poids net : </p>
+                <div id="material">
+                </div>
+            </div>
+            <div id="img-container">
+                <img src="../output/image.jpg" alt="image test" />
+            </div>
+        </div>
 
-{% block content %}
-    <h1>Page À Propos</h1>
-    <a href="{{ url_for('main.index') }}">Retour à l'accueil</a>
-{% endblock %}
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    </main>
+</body>
+</html>
