@@ -26,30 +26,32 @@
         </div>
 
         <div id="container-product">
-            {% for product in items_on_page %}    
+            <!-- {% for product in items_on_page %}    
                 <div class="productCard">
                     <a href="{{ url_for('main.productSheet', product_name=product.name) }}" class="Card"> 
                         <div class="futureImg"> 
-                            <!-- <img src="../output/image.jpg" alt="Description de l'image"> -->
+                            <!-- <img src="../output/image.jpg" alt="Description de l'image"> 
                         </div>
                         <div class="fastInformations">
                             <p>Nom : {{ product.name }}</p>
                             <p>Marque : {{ product.brand }}</p>
                             <p>Volume : {{ product.volume }}</p>
                             <p>Catégorie : {{ product.categorie }}</p>
-                            <!-- <p>Poids net : {{ product.net_weight }}</p> -->
+                            <!-- <p>Poids net : {{ product.net_weight }}</p> 
                         </div>
                     </a>
                 </div>
-            {% endfor %}
+            {% endfor %} -->
         </div>
-        {% if page > 1 %}
-        <a href="{{url_for('main.index', page=page-1) }}">Previous</a>
-        {% endif %} 
 
-        {% if page < total_pages %}
-        <a href="{{url_for('main.index', page=page+1) }}">Next</a>
-        {% endif %}
+<div id="pagination">
+    <button id="previous-link">Précédent</button>
+    <span id="pagination-numbers"></span>
+    <button id="next-link">Suivant</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
         
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
