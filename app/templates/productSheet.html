@@ -23,7 +23,10 @@
                 <p>Volume : {{ product.volume }}</p>
                 <p>{{ product.net_weight }}</p>
                 <p>Date de scraping : {{ product.scraped_date}}</p>
-                <div id="material"></div>
+                <div id="material">
+                    
+                </div>
+                <button type="button">Sauvegarder</button>
             </div>
             <div id="img-container">
                 <img src="{{ url_for('static', filename='images/image.jpg') }}" alt="Description de l'image">
