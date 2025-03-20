@@ -28,8 +28,10 @@
         <div id="container-product">
             {% for product in products %}    
                 <div class="productCard">
-                    <a href="productSheet" class="Card">
-                        <div class="futureImg"></div>
+                    <a href="{{ url_for('main.productSheet', product_name=product.name) }}" class="Card"> 
+                        <div class="futureImg"> 
+                            <!-- <img src="../output/image.jpg" alt="Description de l'image"> -->
+                        </div>
                         <div class="fastInformations">
                             <p>Nom : {{ product.name }}</p>
                             <p>Marque : {{ product.brand }}</p>
