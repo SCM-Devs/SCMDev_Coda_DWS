@@ -14,10 +14,12 @@
     </header>
     <main>
         <div class="search-line">
-            <div id="search-container" class="glass-effect">
-                <input type="text" placeholder="">
-                <button id="search-btn"></button><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
+            <form method="GET" action="{{ url_for('main.index') }}">
+                <div id="search-container" class="glass-effect">
+                    <input type="text" name="search" placeholder="Rechercher par nom" value="{{ search_query }}">
+                    <button id="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
 
             <div id="filtr-container" class="glass-effect">
                 <p>Filtrer  </p>
@@ -43,19 +45,19 @@
         <!-- Pagination -->
         <div class="pagination">
             {% if page > 1 %}
-                <a href="{{ url_for('main.index', page=page-1) }}" class="pagination-link">Précédent</a>
+                <a href="{{ url_for('main.index', page=page-1, search=search_query) }}" class="pagination-link">Précédent</a>
             {% endif %}
             
             {% for p in range(start_page, end_page + 1) %}
                 {% if p == page %}
                     <span class="pagination-current">{{ p }}</span>
                 {% else %}
-                    <a href="{{ url_for('main.index', page=p) }}" class="pagination-link">{{ p }}</a>
+                    <a href="{{ url_for('main.index', page=p, search=search_query) }}" class="pagination-link">{{ p }}</a>
                 {% endif %}
             {% endfor %}
             
             {% if page < total_pages %}
-                <a href="{{ url_for('main.index', page=page+1) }}" class="pagination-link">Suivant</a>
+                <a href="{{ url_for('main.index', page=page+1, search=search_query) }}" class="pagination-link">Suivant</a>
             {% endif %}
         </div>
 
