@@ -26,7 +26,7 @@
         </div>
 
         <div id="container-product">
-            {% for product in products %}    
+            {% for product in items_on_page %}    
                 <div class="productCard">
                     <a href="{{ url_for('main.productSheet', product_name=product.name) }}" class="Card"> 
                         <div class="futureImg"> 
@@ -43,7 +43,14 @@
                 </div>
             {% endfor %}
         </div>
+        {% if page > 1 %}
+        <a href="{{url_for('main.index', page=page-1) }}">Previous</a>
+        {% endif %} 
 
+        {% if page < total_pages %}
+        <a href="{{url_for('main.index', page=page+1) }}">Next</a>
+        {% endif %}
+        
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
         

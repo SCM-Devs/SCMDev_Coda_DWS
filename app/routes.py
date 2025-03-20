@@ -1,5 +1,5 @@
 import csv
-from flask import Blueprint, render_template,jsonify
+from flask import Blueprint, render_template, jsonify, request
 from app.models import Product
 
 bp = Blueprint('main', __name__)
@@ -12,7 +12,16 @@ def index():
         for row in csvreader:
             product = Product.from_csv_row(row)
             products.append(product.convert_to_dic())
-    return render_template('index.html', products=products) 
+    ITEMS = len(products)
+    page = request.args.get('page', 1, type=int)
+    per_page = 30
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (ITEMS + per_page -1) // per_page
+
+    items_on_page = products[start:end]
+
+    return render_template('index.html', items_on_page = items_on_page, total_pages = total_pages, page = page) 
 
 def get_products():
     products = []
