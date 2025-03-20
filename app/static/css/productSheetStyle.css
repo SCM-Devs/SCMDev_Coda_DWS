@@ -16,6 +16,11 @@ header{
     font-family: 'Times New Roman', Times, serif;
 }
 
+header > a{
+    text-decoration: none;
+    color: #d4d4d4;
+}
+
 main{
     padding: 40px;
 }
