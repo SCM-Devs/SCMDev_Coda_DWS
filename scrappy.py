@@ -655,72 +655,39 @@ def load_existing_data(filename):
                     existing_data[key] = row
     return existing_data
 
-def save_to_csv(data, filename='extime_perfumes.csv'):
-    """Save data to a CSV file, updating existing entries if necessary."""
+def save_to_csv(data, filename='extime_perfumes.csv'):    
     try:
         # Load existing data
         existing_data = load_existing_data(filename)
 
-        # Separate products by type in one pass
-        parfum_products = []
-        cave_products = []
+        products = []
         
-        for item in data:
-            if 'product_url' in item:
-                cave_products.append(item)
-            else:
-                parfum_products.append(item)
+        products = data   
         
         # Base filename
         base_filename = os.path.splitext(filename)[0]
-        
-        # Save parfum products
-        if parfum_products:
-            parfum_filename = f"{base_filename}_parfums.csv"
-            fieldnames = ['brand', 'name', 'categorie', 'volume', 'url_origine', 
-                        'image_url', 'scraped_date', 'net_weight']
+
+        general_filename = f"{base_filename}.csv"
+        fieldnames = ['brand', 'name', 'type_size', 'product_url', 'image_url', 
+              'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume']
+
             
             # Prepare rows for writing
-            rows = []
-            for item in parfum_products:
-                key = item.get('url_origine')
-                if key in existing_data:
+        rows = []
+        for item in products:
+            key = item.get('product_url')
+            if key in existing_data:
                     # Update existing entry
-                    existing_data[key].update(item)
-                    rows.append(existing_data[key])
-                else:
-                    rows.append(item)
+                existing_data[key].update(item)
+                rows.append(existing_data[key])
+            else:
+                rows.append(item)
             
-            # Write all rows back to the CSV
-            with open(parfum_filename, 'w', encoding='utf-8', newline='') as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(rows)
-            print(f"Updated {len(rows)} parfum products in {parfum_filename}")
-        
-        # Save cave products
-        if cave_products:
-            cave_filename = f"{base_filename}_cave.csv"
-            fieldnames = ['brand', 'name', 'type_size', 'product_url', 'image_url', 
-                        'scraped_date', 'net_weight']
-            
-            # Prepare rows for writing
-            rows = []
-            for item in cave_products:
-                key = item.get('product_url')
-                if key in existing_data:
-                    # Update existing entry
-                    existing_data[key].update(item)
-                    rows.append(existing_data[key])
-                else:
-                    rows.append(item)
-            
-            # Write all rows back to the CSV
-            with open(cave_filename, 'w', encoding='utf-8', newline='') as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(rows)
-            print(f"Updated {len(rows)} cave products in {cave_filename}")
+        with open(general_filename, 'w', encoding='utf-8', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+        print(f"Updated {len(rows)} products in {general_filename}")
         
         return True
     except Exception as e:

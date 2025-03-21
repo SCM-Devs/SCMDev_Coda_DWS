@@ -14,21 +14,24 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(`/api/products?page=${page}`)
             const data = await response.json()
-
+    
             if (data.error) {
-                 console.error("Erreur lors du chagement des produits :", data.error)
+                console.error("Erreur lors du chargement des produits :", data.error)
                 return
             }
-
+    
             currentPage = data.current_page
             localStorage.setItem("currentPage", currentPage)
-
+    
             renderProducts(data.products)
             renderPagination(data.total_pages)
+    
+            document.getElementById("pagination").style.display = "block"
         } catch (error) {
             console.error("Erreur JSON ou réseau :", error)
         }
     }
+    
 
     function renderProducts(products) {
         container.innerHTML = products.map(product => `
@@ -86,29 +89,34 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (e.target.closest(".Card")) {
             localStorage.setItem("currentPage", currentPage)
         }
-    });
+    })
 
     fetchProducts(currentPage)
 
+    
     async function searchProducts() {
         const query = searchInput.value.trim()
         if (query === "") return
-
+    
         const response = await fetch(`/search?q=${encodeURIComponent(query)}`)
         const products = await response.json()
-
+    
         productContainer.innerHTML = ""
-
+    
+        document.getElementById("pagination").style.display = "none"
+    
         if (products.length === 0) {
             productContainer.innerHTML = "<p>Aucun produit trouvé.</p>"
-            return;
+            return
         }
-
+    
         products.forEach(product => {
             productContainer.innerHTML += `
                 <div class="productCard">
                     <a href="/${product.name}" class="Card"> 
-                        <div class="futureImg"></div>
+                        <div class="futureImg">
+                            <img src="../static/images/image.jpg" alt="Description de l'image">
+                        </div>
                         <div class="fastInformations">
                             <p>Nom : ${product.name}</p>
                             <p>Marque : ${product.brand}</p>
@@ -120,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `
         })
     }
+    
 
     searchButton.addEventListener("click", searchProducts)
     searchInput.addEventListener("keyup", function (event) {
