@@ -15,10 +15,21 @@
     <main>
         <div class="search-line">
             <div id="search-container" class="glass-effect">
+
                 <input type="text" id = "search-input" placeholder="">
                 <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
+            <div id="filtr-container" class="glass-effect">
+                <p>Filtrer  </p>
+                <button id="dropdown-btn"><i class="fa-solid fa-caret-down"></i></button>
+                <ul id="dropdown-menu" data-value="category" class="dropdown-content">
+                    <li data-value="Parfum">Parfum</li>
+                    <li data-value="Campagne">Campagne</li>
+                    <li data-value="Vin">Vin</li>
+                    <li data-value="Spiritueux">Spiritueux</li>
+                </ul>
+            </div>
         </div>
 
         <div id="container-product">
@@ -32,12 +43,8 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
 
-        
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-        
-
-    </main>
+</main>
 </body>
 </html>

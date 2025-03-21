@@ -34,25 +34,68 @@ main > button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 680px;
+    height: 750px;
     width: 97%;
     background-color: whitesmoke;
 }
 
 #informations{
     width: 61.8%;
+    display: flex;
+    align-content: flex-start;
+    flex-direction: column;
 }
 
 #informations h2{
+    margin-top: 0;
     font-size: 3em;
 }
 
 #informations > p{
-    font-size: 25px;
+    font-size: 23px;
+}
+
+#material{
+    position: relative;
+}
+
+#dropdown-btn {
+    margin-top: 15px;
+    width: 38.19%;
+    height: 50px;
+    text-align: center;
+    font-size: 23px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: black;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 28%;   /*pas toucher !! au MILIMETRE !!! */
+    left: 39%;   /*pas toucher !! au MILIMETRE !!! */
+    background: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    display: none;
+    z-index: 42;
+}
+
+.dropdown-content li {
+    padding: 10px;
+    cursor: pointer;
 }
 
 #informations > button{
-    margin-top: 2em;
+    margin-top: 1em;
     width: 100%;
     height: 60px;
     text-align: center;
@@ -79,13 +122,17 @@ main > button {
     object-fit: cover;
 }
 
+
+
+
+
 @media screen and (max-width: 1024px) {
     #sheet{
         display: flex;
         justify-content: flex-end;
         align-items: center;
         flex-direction: column-reverse;
-        height: 125vh;
+        height: 115vh;
     }
     
     #img-container{
@@ -103,11 +150,15 @@ main > button {
     }
 
     #informations{
-        height: 38.19%;
+        height: 48.19%;
         width: 100%;
         display: flex;
         justify-content: flex-start;
         flex-direction: column;
+    }
+
+    #informations h2{
+        margin-top: 40px;
     }
 
     #informations p{
@@ -116,6 +167,7 @@ main > button {
     }
 
     #informations > button{
-        margin-top: 4em;
+        margin-top: 2em;
+        height: 75px;
     }
 }
