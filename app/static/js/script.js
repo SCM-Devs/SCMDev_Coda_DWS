@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderPagination(totalPages) {
         paginationNumbers.innerHTML = ""
     
-        // Désactiver ou activer les boutons "Précédent" et "Suivant"
         previousLink.disabled = currentPage <= 1
         previousLink.style.opacity = currentPage <= 1 ? "0.5" : "1"
     
@@ -67,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let startPage = Math.max(1, currentPage - 2) 
         let endPage = Math.min(totalPages, currentPage + 2)
     
-        // Ajustement pour toujours afficher 5 pages
         if (currentPage <= 2) {
             endPage = Math.min(totalPages, 5)
         } else if (currentPage >= totalPages - 1) {
@@ -89,12 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     mainLink.addEventListener("click", async (e) => {
-        e.preventDefault(); // Empêche la navigation par défaut (si c'est un lien <a>)
+        e.preventDefault()
     
-        currentPage = 1; // Réinitialise la page actuelle à 1
-        localStorage.setItem("currentPage", currentPage); // Sauvegarde dans le localStorage
+        currentPage = 1
+        localStorage.setItem("currentPage", currentPage)
         
-        await fetchProducts(1); // Charge la première page des articles
+        await fetchProducts(1)
     });
       
 
