@@ -1,4 +1,6 @@
 import csv
+import requests
+
 from flask import Blueprint, render_template, jsonify, request
 from app.models import Product
 
@@ -17,7 +19,7 @@ def get_products():
             for row in csvreader:
                 product = Product.from_csv_row(row)
                 products.append(product.convert_to_dic()) 
-
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -45,5 +47,19 @@ def productSheet(product_name):
                 return render_template('productSheet.html', product=product)
     return 'Product not found', 404
    
+
+@bp.route('/search')
+def search():
+    query = request.args.get('q', '').lower()
+    products = []
+
+    with open('app/output/products.csv', newline='', encoding='utf-8') as csvfile:
+        csvreader = csv.DictReader(csvfile)
+        for row in csvreader:
+            if query in row['name'].lower():
+                product = Product.from_csv_row(row)
+                products.append(product.convert_to_dic())
+    return jsonify(products)
+
 
 
