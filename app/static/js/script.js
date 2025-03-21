@@ -1,28 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let currentPage = localStorage.getItem("currentPage") || 1;
+    let currentPage = localStorage.getItem("currentPage") || 1
 
-    const container = document.querySelector("#container-product");
-    const paginationNumbers = document.querySelector("#pagination-numbers");
-    const previousLink = document.querySelector("#previous-link");
-    const nextLink = document.querySelector("#next-link");
+    const container = document.querySelector("#container-product")
+    const paginationNumbers = document.querySelector("#pagination-numbers")
+    const previousLink = document.querySelector("#previous-link")
+    const nextLink = document.querySelector("#next-link")
+
+    const searchInput = document.getElementById("search-input")
+    const searchButton = document.getElementById("search-btn")
+    const productContainer = document.getElementById("container-product")
 
     async function fetchProducts(page) {
         try {
-            const response = await fetch(`/api/products?page=${page}`);
-            const data = await response.json();
+            const response = await fetch(`/api/products?page=${page}`)
+            const data = await response.json()
 
             if (data.error) {
-                console.error("Erreur lors du chargement des produits :", data.error);
-                return;
+                 console.error("Erreur lors du chagement des produits :", data.error)
+                return
             }
 
-            currentPage = data.current_page;
-            localStorage.setItem("currentPage", currentPage);
+            currentPage = data.current_page
+            localStorage.setItem("currentPage", currentPage)
 
-            renderProducts(data.products);
-            renderPagination(data.total_pages);
+            renderProducts(data.products)
+            renderPagination(data.total_pages)
         } catch (error) {
-            console.error("Erreur JSON ou réseau :", error);
+            console.error("Erreur JSON ou réseau :", error)
         }
     }
 
@@ -30,7 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
         container.innerHTML = products.map(product => `
             <div class="productCard">
                 <a href="/${product.name}" class="Card" data-page="${currentPage}">
-                    <div class="futureImg"></div>
+                    <div class="futureImg"> 
+                        <img src="../static/images/image.jpg"" alt="Description de l'image">
+                    </div>
                     <div class="fastInformations">
                         <p>Nom : ${product.name}</p>
                         <p>Marque : ${product.brand}</p>
@@ -39,33 +45,84 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </a>
             </div>
-        `).join('');
+        `).join('')
     }
 
     function renderPagination(totalPages) {
-        paginationNumbers.innerHTML = "";
+        paginationNumbers.innerHTML = ""
+        if (currentPage <= 1) {
+            previousLink.disabled = true
+            previousLink.style.opacity = "0.5"
+        } else {
+            previousLink.disabled = false
+            previousLink.style.opacity = "1"
+        }
+    
+        if (currentPage >= totalPages) {
+            nextLink.disabled = true
+            nextLink.style.opacity = "0.5"
+        } else {
+            nextLink.disabled = false
+            nextLink.style.opacity = "1"
+        }
         for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement("button");
-            btn.textContent = i;
-            btn.className = "pagination-btn";
-            btn.dataset.page = i;
-            if (i == currentPage) btn.style.fontWeight = "bold";
-            paginationNumbers.appendChild(btn);
+            const btn = document.createElement("button")
+            btn.textContent = i
+            btn.className = "pagination-btn"
+            btn.dataset.page = i
+            if (i == currentPage) btn.style.fontWeight = "bold"
+            paginationNumbers.appendChild(btn)
         }
     }
 
     document.body.addEventListener("click", async (e) => {
         if (e.target.matches(".pagination-btn")) {
-            let page = e.target.dataset.page;
-            await fetchProducts(page);
+            let page = e.target.dataset.page
+            await fetchProducts(page)
         } else if (e.target.matches("#previous-link") && currentPage > 1) {
-            await fetchProducts(currentPage - 1);
+            await fetchProducts(currentPage - 1)
         } else if (e.target.matches("#next-link")) {
-            await fetchProducts(Number(currentPage) + 1);
+            await fetchProducts(Number(currentPage) + 1)
         } else if (e.target.closest(".Card")) {
-            localStorage.setItem("currentPage", currentPage);
+            localStorage.setItem("currentPage", currentPage)
         }
     });
 
-    fetchProducts(currentPage);
-});
+    fetchProducts(currentPage)
+
+    async function searchProducts() {
+        const query = searchInput.value.trim()
+        if (query === "") return
+
+        const response = await fetch(`/search?q=${encodeURIComponent(query)}`)
+        const products = await response.json()
+
+        productContainer.innerHTML = ""
+
+        if (products.length === 0) {
+            productContainer.innerHTML = "<p>Aucun produit trouvé.</p>"
+            return;
+        }
+
+        products.forEach(product => {
+            productContainer.innerHTML += `
+                <div class="productCard">
+                    <a href="/${product.name}" class="Card"> 
+                        <div class="futureImg"></div>
+                        <div class="fastInformations">
+                            <p>Nom : ${product.name}</p>
+                            <p>Marque : ${product.brand}</p>
+                            <p>Volume : ${product.volume}</p>
+                            <p>Catégorie : ${product.categorie}</p>
+                        </div>
+                    </a>
+                </div>
+            `
+        })
+    }
+
+    searchButton.addEventListener("click", searchProducts)
+    searchInput.addEventListener("keyup", function (event) {
+        if (event.key === "Enter") searchProducts()
+    })
+})

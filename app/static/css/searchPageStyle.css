@@ -137,6 +137,13 @@ main{
     object-fit: cover;
 }
 
+.futureImg > img{
+    background-size: cover;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
 .fastInformations{
     width: 100%;
 }
