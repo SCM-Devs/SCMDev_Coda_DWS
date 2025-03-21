@@ -39,6 +39,7 @@ main{
     width: 80px;
     height: 10px;
     font-size: large;
+    position: relative;
 }
 
 #filtr-container > p{
@@ -68,10 +69,39 @@ main{
     width: 85%;
 }
 
+#dropdown-btn {
+    width: 38.19%;
+    height: 50px;
+    text-align: center;
+    font-size: 23px;
+    background: transparent;
+    color: black;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 117%;   /*pas toucher !! au MILIMETRE !!! */
+    left: -62%;   /*pas toucher !! au MILIMETRE !!! */
+    background: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    display: none;
+    z-index: 42;
+}
+
+.dropdown-content li {
+    padding: 10px;
+    cursor: pointer;
+}
+
 #container-product{
     display: flex;
     justify-content: space-evenly;
-    /* align-items: space-evenly; */
     align-items: stretch;
     flex-wrap: wrap;
 }
@@ -101,8 +131,10 @@ main{
 
 .futureImg {
     height: 180px;
-    width: 180px;
+    width: 100%;
     background-color: #151613;
+    background-size: cover;
+    object-fit: cover;
 }
 
 .fastInformations{
