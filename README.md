@@ -52,3 +52,5 @@ PS: le script de scraping dure uen dizaine de minutes, il est donc préférable 
 python scrappy.py
 
 PSS: toutes les dépendances ne sont peut-être pas incluses dans le projet, il faudra peut-être en installer d'autres
+
+ss
