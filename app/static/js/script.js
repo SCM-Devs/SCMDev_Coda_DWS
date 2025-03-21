@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="productCard">
                 <a href="/${product.name}" class="Card" data-page="${currentPage}">
                     <div class="futureImg"> 
-                        <img src="../static/images/image.jpg"" alt="Description de l'image">
+                        <img src="../static/images/image.webp"" alt="Description de l'image">
                     </div>
                     <div class="fastInformations">
                         <p>Nom : ${product.name}</p>
