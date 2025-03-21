@@ -23,29 +23,24 @@ Si vous n'avez pas Python, vous pouvez le télécharger depuis le site officiel 
 
 Créez un environnement virtuel pour isoler les dépendances du projet.
 
-```bash
 python -m venv venv
 
 ### Activer l'environnement virtuel
 
     Sur Windows :
-```bash
 venv\Scripts\activate
 
 Sur Mac/Linux :
-```bash
 source venv/bin/activate
 
 ### Installer les dépendances
 
-```bash
 pip install -r requirements.txt
 
 ### Lancer l'application
 
 Une fois les dépendances installées, vous pouvez lancer le serveur Flask avec la commande suivante :
 
-```bash
 python run.py
 
 Le serveur sera lancé sur http://127.0.0.1:5000 par défaut, uen autre ligne sera visible dans la console pour indiquer l'adresse exacte sur laquelle les appareils connectés au même réseau pourront avoir accès.
@@ -54,5 +49,6 @@ Cette ligne commence comme ça :
 
 
 PS: le script de scraping dure uen dizaine de minutes, il est donc préférable de le lancer avant de lancer le serveur Flask, voici la ligne a tapé:
-```bash
 python scrappy.py
+
+PSS: toutes les dépendances ne sont peut-être pas incluses dans le projet, il faudra peut-être en installer d'autres
