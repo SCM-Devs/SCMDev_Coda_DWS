@@ -9,7 +9,7 @@
 </head> 
 <body>
     <header>
-        <h1>Scraping Extime</h1>
+        <a href="{{ url_for('main.index') }}" id="main-link"><h1>Scraping Extime</h1></a>
         <h2>Dernière mise à jour : XX/XX/XXXX</a>
     </header>
     <main>
@@ -26,13 +26,13 @@
                 <button id="dropdown-btn"><i class="fa-solid fa-caret-down"></i></button>
                 
             </div> -->
-                <ul id="dropdown-menu" data-value="category" class="dropdown-content">
+                <!-- <ul id="dropdown-menu" data-value="category" class="dropdown-content">
                     <li data-value="Parfum">Parfum</li>
                     <li data-value="Campagne">Campagne</li>
                     <li data-value="Vin">Vin</li>
                     <li data-value="Spiritueux">Spiritueux</li>
                 </ul>
-            </div>
+            </div> -->
         </div>
 
         <div id="container-product">
@@ -49,7 +49,7 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script> -->
 
 </main>
 </body>

@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("search-btn")
     const productContainer = document.getElementById("container-product")
 
+    const mainLink = document.getElementById("main-link")
+
     async function fetchProducts(page) {
         try {
             const response = await fetch(`/api/products?page=${page}`)
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
 
+
     function renderProducts(products) {
         container.innerHTML = products.map(product => `
             <div class="productCard">
@@ -53,30 +56,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderPagination(totalPages) {
         paginationNumbers.innerHTML = ""
-        if (currentPage <= 1) {
-            previousLink.disabled = true
-            previousLink.style.opacity = "0.5"
-        } else {
-            previousLink.disabled = false
-            previousLink.style.opacity = "1"
+    
+        // Désactiver ou activer les boutons "Précédent" et "Suivant"
+        previousLink.disabled = currentPage <= 1
+        previousLink.style.opacity = currentPage <= 1 ? "0.5" : "1"
+    
+        nextLink.disabled = currentPage >= totalPages
+        nextLink.style.opacity = currentPage >= totalPages ? "0.5" : "1"
+    
+        let startPage = Math.max(1, currentPage - 2) 
+        let endPage = Math.min(totalPages, currentPage + 2)
+    
+        // Ajustement pour toujours afficher 5 pages
+        if (currentPage <= 2) {
+            endPage = Math.min(totalPages, 5)
+        } else if (currentPage >= totalPages - 1) {
+            startPage = Math.max(1, totalPages - 4)
         }
     
-        if (currentPage >= totalPages) {
-            nextLink.disabled = true
-            nextLink.style.opacity = "0.5"
-        } else {
-            nextLink.disabled = false
-            nextLink.style.opacity = "1"
-        }
-        for (let i = 1; i <= totalPages; i++) {
-            const aLink = document.createElement("a")
-            aLink.textContent = i
-            aLink.className = "pagination-btn"
-            aLink.dataset.page = i
-            if (i == currentPage) aLink.style.fontWeight = "bold"
-            paginationNumbers.appendChild(aLink)
+        for (let i = startPage; i <= endPage; i++) {
+            const btn = document.createElement("button")
+            btn.textContent = i
+            btn.className = "pagination-btn"
+            btn.dataset.page = i
+    
+            if (i == currentPage) {
+                btn.style.fontWeight = "bold"
+            }
+    
+            paginationNumbers.appendChild(btn)
         }
     }
+    
+    mainLink.addEventListener("click", async (e) => {
+        e.preventDefault(); // Empêche la navigation par défaut (si c'est un lien <a>)
+    
+        currentPage = 1; // Réinitialise la page actuelle à 1
+        localStorage.setItem("currentPage", currentPage); // Sauvegarde dans le localStorage
+        
+        await fetchProducts(1); // Charge la première page des articles
+    });
+      
 
     document.body.addEventListener("click", async (e) => {
         if (e.target.matches(".pagination-btn")) {
@@ -115,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="productCard">
                     <a href="/${product.name}" class="Card"> 
                         <div class="futureImg">
-                            <img src="../static/images/image.jpg" alt="Description de l'image">
+                            <img src="../static/images/image.webp" alt="Description de l'image">
                         </div>
                         <div class="fastInformations">
                             <p>Nom : ${product.name}</p>
