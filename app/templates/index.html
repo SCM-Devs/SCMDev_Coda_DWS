@@ -17,6 +17,7 @@
             <div id="search-container" class="glass-effect">
 
                 <input type="text" id = "search-input" placeholder="">
+
                 <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
@@ -39,9 +40,12 @@
         </div>
 
 <div id="pagination">
-    <button id="previous-link">Précédent</button>
-    <span id="pagination-numbers"></span>
-    <button id="next-link">Suivant</button>
+    <ul id="pagiUl" class="glass-effect">
+        <li><a href="#" id="previous-link">Précédent</a></li>
+        <tr></tr>
+        <li><span id="pagination-numbers"></span></li>
+        <li><a href="#" id="next-link">Suivant</a></li>
+    </ul>
 </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>

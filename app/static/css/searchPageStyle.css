@@ -34,6 +34,10 @@ main{
 }
 
 
+#search-btn{
+    cursor: grab;
+}
+
 #filtr-container{
     margin-bottom: 33px;
     padding: 10px;
@@ -155,4 +159,29 @@ main{
 
 .fastInformations > * {
     margin: 6px 10px 0;
+}
+
+#pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pagiUl{
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+    width: 400px;
+    height: 40px;
+
+}
+
+#pagiUl a{
+    text-decoration: none;
+    color: #151613;
+    margin: 0 10px;
+    cursor: grab;
 }
