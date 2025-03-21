@@ -15,7 +15,6 @@
     <main>
         <div class="search-line">
             <div id="search-container" class="glass-effect">
-<<<<<<< HEAD
                 <input type="text" placeholder="">
                 <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
@@ -30,12 +29,6 @@
                     <li data-value="Spiritueux">Spiritueux</li>
                 </ul>
             </div>
-=======
-                <input type="text" id = "search-input" placeholder="">
-                <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
-
->>>>>>> 3f70b23735ad7269e48a517974914af7a9102f08
         </div>
 
         <div id="container-product">
@@ -43,9 +36,12 @@
         </div>
 
 <div id="pagination">
-    <button id="previous-link">Précédent</button>
-    <span id="pagination-numbers"></span>
-    <button id="next-link">Suivant</button>
+    <ul id="pagiUl" class="glass-effect">
+        <li><a href="#" id="previous-link">Précédent</a></li>
+        <tr></tr>
+        <li><span id="pagination-numbers"></span></li>
+        <li><a href="#" id="next-link">Suivant</a></li>
+    </ul>
 </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>

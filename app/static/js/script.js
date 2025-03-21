@@ -66,12 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
             nextLink.style.opacity = "1"
         }
         for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement("button")
-            btn.textContent = i
-            btn.className = "pagination-btn"
-            btn.dataset.page = i
-            if (i == currentPage) btn.style.fontWeight = "bold"
-            paginationNumbers.appendChild(btn)
+            const aLink = document.createElement("a")
+            aLink.textContent = i
+            aLink.className = "pagination-btn"
+            aLink.dataset.page = i
+            if (i == currentPage) aLink.style.fontWeight = "bold"
+            paginationNumbers.appendChild(aLink)
         }
     }
 
