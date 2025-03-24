@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 dropdownBtn.textContent = "Matériau : " + event.target.dataset.value
 
             } else if (dropdownMenu.dataset.value === "category") {
-                document.querySelectorAll("li").forEach(li => li.style.background = "white")
-                event.target.style.background = "#f0f0f0"
+                document.querySelectorAll("li").forEach(li => li.style.background = "transparent")
+                event.target.style.background = "#dadada"
             }
             
             dropdownMenu.style.display = "none"
