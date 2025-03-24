@@ -41,8 +41,10 @@ main > button {
 
 #informations{
     width: 61.8%;
+    height: 90%;
     display: flex;
-    align-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
     flex-direction: column;
 }
 
@@ -52,6 +54,7 @@ main > button {
 }
 
 #informations > p{
+    margin: 5px;
     font-size: 23px;
 }
 
