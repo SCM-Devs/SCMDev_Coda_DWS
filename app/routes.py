@@ -60,6 +60,3 @@ def search():
                 product = Product.from_csv_row(row)
                 products.append(product.convert_to_dic())
     return jsonify(products)
-
-
-
