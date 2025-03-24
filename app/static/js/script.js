@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("search-btn")
     const productContainer = document.getElementById("container-product")
 
+    const mainLink = document.getElementById("main-link")
+
     async function fetchProducts(page) {
         try {
             const response = await fetch(`/api/products?page=${page}`)

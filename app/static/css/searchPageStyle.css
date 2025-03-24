@@ -16,6 +16,11 @@ header{
     font-family: 'Times New Roman', Times, serif;
 }
 
+header > a{
+    text-decoration: none;
+    color: #d4d4d4;
+}
+
 main{
     padding: 40px;
 }
@@ -133,7 +138,9 @@ main{
     transition: background-color 0.3s ease-in-out;
 }
 
-
+.productCard > *{
+    width: 100%;
+}
 
 .futureImg {
     height: 180px;
