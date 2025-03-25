@@ -14,7 +14,7 @@ def index():
 def get_products():
     products = []
     try:
-        with open('app/output/products.csv', newline='', encoding='utf-8') as csvfile:
+        with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:
                 product = Product.from_csv_row(row)
@@ -39,7 +39,7 @@ def get_products():
 
 @bp.route('/<product_name>')
 def productSheet(product_name):
-    with open('app/output/products.csv', newline='', encoding='utf-8') as csvfile:
+    with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             if row['name'] == product_name:
@@ -53,13 +53,10 @@ def search():
     query = request.args.get('q', '').lower()
     products = []
 
-    with open('app/output/products.csv', newline='', encoding='utf-8') as csvfile:
+    with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             if query in row['name'].lower():
                 product = Product.from_csv_row(row)
                 products.append(product.convert_to_dic())
     return jsonify(products)
-
-
-
