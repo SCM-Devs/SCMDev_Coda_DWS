@@ -70,17 +70,17 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (currentPage >= totalPages - 1) {
             startPage = Math.max(1, totalPages - 4)
         }
-    
+        
         for (let i = startPage; i <= endPage; i++) {
             const aLink = document.createElement("a")
             aLink.textContent = i
             aLink.className = "pagination-btn"
             aLink.dataset.page = i
-    
+
             if (i == currentPage) {
                 aLink.style.fontWeight = "bold"
             }
-    
+
             paginationNumbers.appendChild(aLink)
         }
     }
