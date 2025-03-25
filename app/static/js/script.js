@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     searchButton.addEventListener("click", searchProducts)
     searchInput.addEventListener("keyup", function (event) {
-        if (event.key === "Enter") searchProducts()
+        if (event.key === "Enter") 
+            searchProducts()
     })
 })
