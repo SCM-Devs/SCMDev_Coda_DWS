@@ -1,0 +1,250 @@
+body{
+    margin: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #d4d4d4;
+}
+
+header{
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30%;
+    background-color: #151613;
+    color: #d4d4d4;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+header > a{
+    text-decoration: none;
+    color: #d4d4d4;
+}
+
+main{
+    padding: 40px;
+}
+
+.action-line{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 33px;
+}
+
+#search-container{
+    padding: 20px;
+    width: 400px;
+    height: 15px;
+}
+
+#search-btn{
+    cursor: pointer;
+}
+
+#filtr-scrap-container {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#filtr-container{
+    padding: 10px;
+    width: 90px;
+    height: 15px;
+    font-size: large;
+    position: relative;
+}
+
+#filtr-container > p{
+    padding: 8px;
+}
+
+#scrap-container{
+    padding: 10px;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    height: 25px;
+    font-size: large;
+}
+
+.glass-effect{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: black;
+    font-size: 1.2rem;
+}
+
+.glass-effect > * {
+    all: unset;
+    background-color: transparent;
+}
+
+.glass-effect > input {
+    width: 85%;
+}
+
+#dropdown-btn {
+    width: 38.19%;
+    height: 50px;
+    text-align: center;
+    font-size: 23px;
+    background: transparent;
+    color: black;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 117%;   /*pas toucher !! au MILIMETRE !!! */
+    left: -62%;   /*pas toucher !! au MILIMETRE !!! */
+    background: #ececec;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    display: none;
+    z-index: 42;
+}
+
+.dropdown-content li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#alert-message{
+    flex-wrap: wrap;
+    align-content: space-between;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 400px;
+    height: 220px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 420;
+}
+
+#alert-message h2 {
+    padding: 15px;
+    margin: 0;
+    width: 100%;
+    border: 3px solid #e32525;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    font-size: 23px;
+}
+
+#alert-message > p, #btns {
+    margin: 20px;
+    font-size: 16px;
+}
+
+#btns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+#btns > * {
+    border: 1px solid #151613;
+    border-radius: 8px;
+    width: 33.33%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+#container-product{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+#container-product > * {
+    margin: 15px;
+}
+
+.Card {
+    text-decoration: none;
+    color:black
+}
+
+.productCard {
+    margin-bottom: 20px;
+    padding: 25px 20px 25px;
+    width: 200px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    background-color:  #ececec;
+    border-radius: 9px;
+    color: black;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.productCard > *{
+    width: 100%;
+}
+
+.futureImg {
+    height: 180px;
+    width: 100%;
+    background-color: #151613;
+    background-size: cover;
+    object-fit: cover;
+}
+
+.futureImg > img{
+    background-size: cover;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.fastInformations{
+    width: 100%;
+}
+
+.fastInformations > * {
+    margin: 6px 10px 0;
+}
+
+#pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pagiUl{
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 40px;
+
+}
+
+#pagiUl a{
+    text-decoration: none;
+    color: #151613;
+    margin: 0 10px;
+    cursor: grab;
+}

@@ -1,20 +1,130 @@
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/products')
-        .then(response => response.json())
-        .then(products => {
-            const container = document.getElementById('container-product');
-            products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('productCard');
-                productDiv.innerHTML = `
-                    <p>Nom : {{ product.name }}</p>
-                    <p>Marque : {{ product.brand }}</p>
-                    <p>Volume : {{ product.volume }}</p>
-                    <p>Catégorie : {{ product.categorie }}</p>
-                    <p>Poids net : {{ product.net_weight }}</p>
-                `;
-                container.appendChild(productDiv);
-            });
+    let currentPage = localStorage.getItem("currentPage") || 1
+
+    const container = document.querySelector("#container-product")
+    const paginationNumbers = document.querySelector("#pagination-numbers")
+    const previousLink = document.querySelector("#previous-link")
+    const nextLink = document.querySelector("#next-link")
+
+    const searchInput = document.getElementById("search-input")
+    const searchButton = document.getElementById("search-btn")
+    const productContainer = document.getElementById("container-product")
+
+    const mainLink = document.getElementById("main-link")
+
+    async function fetchProducts(page) {
+        try {
+            const response = await fetch(`/api/products?page=${page}`)
+            const data = await response.json()
+
+            if (data.error) {
+                 console.error("Erreur lors du chagement des produits :", data.error)
+                return
+            }
+
+            currentPage = data.current_page
+            localStorage.setItem("currentPage", currentPage)
+
+            renderProducts(data.products)
+            renderPagination(data.total_pages)
+        } catch (error) {
+            console.error("Erreur JSON ou réseau :", error)
+        }
+    }
+
+    function renderProducts(products) {
+        container.innerHTML = products.map(product => `
+            <div class="productCard">
+                <a href="/${product.name}" class="Card" data-page="${currentPage}">
+                    <div class="futureImg"> 
+                        <img src="../static/images/image.webp"" alt="Description de l'image">
+                    </div>
+                    <div class="fastInformations">
+                        <p>Nom : ${product.name}</p>
+                        <p>Marque : ${product.brand}</p>
+                        <p>Volume : ${product.volume}</p>
+                        <p>Catégorie : ${product.categorie}</p>
+                    </div>
+                </a>
+            </div>
+        `).join('')
+    }
+
+    function renderPagination(totalPages) {
+        paginationNumbers.innerHTML = ""
+        if (currentPage <= 1) {
+            previousLink.disabled = true
+            previousLink.style.opacity = "0.5"
+        } else {
+            previousLink.disabled = false
+            previousLink.style.opacity = "1"
+        }
+    
+        if (currentPage >= totalPages) {
+            nextLink.disabled = true
+            nextLink.style.opacity = "0.5"
+        } else {
+            nextLink.disabled = false
+            nextLink.style.opacity = "1"
+        }
+        for (let i = 1; i <= totalPages; i++) {
+            const aLink = document.createElement("a")
+            aLink.textContent = i
+            aLink.className = "pagination-btn"
+            aLink.dataset.page = i
+            if (i == currentPage) aLink.style.fontWeight = "bold"
+            paginationNumbers.appendChild(aLink)
+        }
+    }
+
+    document.body.addEventListener("click", async (e) => {
+        if (e.target.matches(".pagination-btn")) {
+            let page = e.target.dataset.page
+            await fetchProducts(page)
+        } else if (e.target.matches("#previous-link") && currentPage > 1) {
+            await fetchProducts(currentPage - 1)
+        } else if (e.target.matches("#next-link")) {
+            await fetchProducts(Number(currentPage) + 1)
+        } else if (e.target.closest(".Card")) {
+            localStorage.setItem("currentPage", currentPage)
+        }
+    });
+
+    fetchProducts(currentPage)
+
+    async function searchProducts() {
+        const query = searchInput.value.trim()
+        if (query === "") return
+
+        const response = await fetch(`/search?q=${encodeURIComponent(query)}`)
+        const products = await response.json()
+
+        productContainer.innerHTML = ""
+
+        if (products.length === 0) {
+            productContainer.innerHTML = "<p>Aucun produit trouvé.</p>"
+            return;
+        }
+
+        products.forEach(product => {
+            productContainer.innerHTML += `
+                <div class="productCard">
+                    <a href="/${product.name}" class="Card"> 
+                        <div class="futureImg"></div>
+                        <div class="fastInformations">
+                            <p>Nom : ${product.name}</p>
+                            <p>Marque : ${product.brand}</p>
+                            <p>Volume : ${product.volume}</p>
+                            <p>Catégorie : ${product.categorie}</p>
+                        </div>
+                    </a>
+                </div>
+            `
         })
-        .catch(error => console.error('Erreur:', error));
-});
+    }
+
+    searchButton.addEventListener("click", searchProducts)
+    searchInput.addEventListener("keyup", function (event) {
+        if (event.key === "Enter") searchProducts()
+    })
+})
