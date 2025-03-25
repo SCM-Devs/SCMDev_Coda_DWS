@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
             renderProducts(data.products)
             renderPagination(data.total_pages)
     
-            document.getElementById("pagination").style.display = "block"
         } catch (error) {
             console.error("Erreur JSON ou réseau :", error)
         }
@@ -73,16 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         for (let i = startPage; i <= endPage; i++) {
-            const btn = document.createElement("button")
-            btn.textContent = i
-            btn.className = "pagination-btn"
-            btn.dataset.page = i
+            const aLink = document.createElement("a")
+            aLink.textContent = i
+            aLink.className = "pagination-btn"
+            aLink.dataset.page = i
     
             if (i == currentPage) {
-                btn.style.fontWeight = "bold"
+                aLink.style.fontWeight = "bold"
             }
     
-            paginationNumbers.appendChild(btn)
+            paginationNumbers.appendChild(aLink)
         }
     }
     
