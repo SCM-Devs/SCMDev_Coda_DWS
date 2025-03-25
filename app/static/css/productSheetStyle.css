@@ -34,7 +34,7 @@ main > button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 750px;
+    height: 80vh;
     width: 97%;
     background-color: whitesmoke;
 }
@@ -135,7 +135,8 @@ main > button {
         justify-content: flex-end;
         align-items: center;
         flex-direction: column-reverse;
-        height: 115vh;
+        height: 120vh;
+        width: 95%;
     }
     
     #img-container{
@@ -156,7 +157,7 @@ main > button {
         height: 48.19%;
         width: 100%;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         flex-direction: column;
     }
 
@@ -172,5 +173,9 @@ main > button {
     #informations > button{
         margin-top: 2em;
         height: 75px;
+    }
+
+    #dropdown-btn {
+        margin-top: 50px;
     }
 }

@@ -15,14 +15,13 @@
     <main>
         <section class="action-line">
             <div id="search-container" class="glass-effect">
-                <input type="text" placeholder="">
+                <input id="search-input" type="text" placeholder="">
                 <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
             <div id="filtr-scrap-container">
                 <div id="filtr-container" class="glass-effect">
-                    <p>Filtrer  </p>
-                    <button id="dropdown-btn"><i class="fa-solid fa-caret-down"></i></button>
+                    <button id="dropdown-btn">Filtrer  <i class="fa-solid fa-caret-down"></i></button>
                     <ul id="dropdown-menu" data-value="category" class="dropdown-content">
                         <li data-value="Parfum">Parfum</li>
                         <li data-value="Campagne">Campagne</li>
@@ -32,10 +31,9 @@
                 </div>
 
                 <div id="scrap-container" class="glass-effect">
-                    <button id="scrap-btn" type="button">Lancer le scraping <i class="fa-solid fa-square-poll-horizontal"></i></button>
+                    <button id="scrap-btn" type="button">Lancer le scraping <i class="fa-solid fa-globe"></i></button>
                 </div>
             </div>
-            
         </section>
 
         <div id="container-product">
@@ -45,20 +43,22 @@
         <div id="pagination">
             <ul id="pagiUl" class="glass-effect">
                 <li><a href="#" id="previous-link">Précédent</a></li>
-                <tr></tr>
                 <li><span id="pagination-numbers"></span></li>
                 <li><a href="#" id="next-link">Suivant</a></li>
             </ul>
         </div>
 
-        <div id="alert-message" class="glass-effect"  style="display: none;">
-            <h2>Attention <i class="fa-solid fa-circle-exclamation"></i></h2>
-            <p>Etes vous sûre de vouloir effectuez cette action ? Elle aura un impact sur les données qu'utilise cette aplication.</p>
-            <div id="btns">
-                <button id="yes-alert-btn" type="button">Oui, allons-y</button>
-                <button id="no-alert-btn" type="button">Finalement non</button>
+        <div id="overlay" style="display: none;">
+            <div id="alert-message" class="glass-effect" style="display: none;">
+                <h2>Attention !</h2>
+                <p>Etes vous sûre de vouloir effectuez cette action ? Elle aura un impact sur les données qu'utilise cette aplication.</p>
+                <div id="btns">
+                    <button id="yes-alert-btn" type="button">Oui, allons-y</button>
+                    <button id="no-alert-btn" type="button">Finalement non</button>
+                </div>
             </div>
         </div>
+        
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
