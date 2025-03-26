@@ -67,7 +67,7 @@ def extract_product_info(product, is_cave):
     image = Image.open(BytesIO(response.content))
     print(image.format)
 
-    dossier = "test_image"
+    dossier = "image"
     if not os.path.exists(dossier):
         os.makedirs(dossier)
 

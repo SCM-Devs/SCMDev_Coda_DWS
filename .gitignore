@@ -2,4 +2,4 @@ venv/
 __pycache__/
 app/__pycache__/
 app/output/extime_products.csv
-test_images/*
+image/*
