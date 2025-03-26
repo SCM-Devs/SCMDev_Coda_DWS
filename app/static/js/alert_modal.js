@@ -10,7 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     yesBtn.addEventListener('click', () => {
-        //Lancer le bot de scrap ici
+                //Lancer le bot de scrap ici
+
+                console.log("scrappy")
+        alertModal.style.display = "none"
+
     })
 
     noBtn.addEventListener('click', () => {

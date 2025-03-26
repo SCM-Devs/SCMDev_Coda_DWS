@@ -15,7 +15,7 @@
     <main>
         <section class="action-line">
             <div id="search-container" class="glass-effect">
-                <input type="text" placeholder="">
+                <input type="text" id = "search-input" placeholder="">                
                 <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
@@ -50,6 +50,13 @@
                 <li><a href="#" id="next-link">Suivant</a></li>
             </ul>
         </div>
+        <div id="search-pagination" class="pagination-container" style="display: none;">
+            <ul class="glass-effect">
+                <li><a href="#" id="previous-search">Précédent</a></li>
+                <li><span id="search-pagination-numbers"></span></li>
+                <li><a href="#" id="next-search">Suivant</a></li>
+            </ul>
+        </div>
 
         <div id="alert-message" class="glass-effect"  style="display: none;">
             <h2>Attention <i class="fa-solid fa-circle-exclamation"></i></h2>
@@ -60,8 +67,8 @@
             </div>
         </div>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
+        <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
 <script src="{{ url_for('static', filename='js/alert_modal.js') }}"></script>
 
 </main>

@@ -49,14 +49,36 @@ def productSheet(product_name):
    
 
 @bp.route('/search')
-def search():
-    query = request.args.get('q', '').lower()
+def search():    
+    query = request.args.get('q', '').lower() 
+    page = request.args.get('page', 1, type=int)
+    per_page = 30
     products = []
 
-    with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
-        csvreader = csv.DictReader(csvfile)
-        for row in csvreader:
-            if query in row['name'].lower():
-                product = Product.from_csv_row(row)
-                products.append(product.convert_to_dic())
-    return jsonify(products)
+    if not query:
+        return jsonify({"error": "Aucun terme de recherche fourni"}), 400
+
+    try:
+        with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                if query in row['name'].lower():
+                    product = Product.from_csv_row(row)
+                    products.append(product.convert_to_dic())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    total_pages = (len(products) + per_page - 1) // per_page
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    items_on_page = products[start:end]
+
+    return jsonify({
+        "products": items_on_page,
+        "total_pages": total_pages,
+        "current_page": page
+    })
+    
+
+
