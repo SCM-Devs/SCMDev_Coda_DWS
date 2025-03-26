@@ -3,4 +3,4 @@ __pycache__/
 app/__pycache__/
 app/output/extime_products.csv
 image/*
-!image/.gitkeep 
+!image/.gitkeep
