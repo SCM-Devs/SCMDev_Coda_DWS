@@ -27,4 +27,17 @@ class Product:
             row['scraped_date'],
             row['net_weight']
         )
-    
+
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+# Utilisateurs fictifs pour la démonstration
+users = {
+    "admin": "password123",
+    "user": "mypassword"
+}
+
+def validate_user(username, password):
+    return username in users and users[username] == password

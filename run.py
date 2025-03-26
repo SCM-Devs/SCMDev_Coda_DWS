@@ -1,19 +1,12 @@
-# from app import create_app
+from app import create_app  # Importation de la fonction create_app depuis le module app
+import socket  # Importation du module socket pour obtenir l'adresse IP
 
-# app = create_app()
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-from app import create_app
-import socket
-
-app = create_app()
+app = create_app()  # Création de l'application Flask
 
 if __name__ == '__main__':
-    # Récupérer automatiquement l'adresse IP locale
+    # Obtenir l'adresse IP de l'hôte
     ip_address = socket.gethostbyname(socket.gethostname())
-    print(f"Application accessible sur : http://{ip_address}:5001")
+    print(f"Application accessible sur : http://{ip_address}:5001")  # Affiche l'URL d'accès
 
-    # Lancer l'application Flask sur toutes les interfaces réseau pour qu'elle soit accessible
+    # Démarre l'application Flask
     app.run(host='0.0.0.0', port=5001, debug=True)

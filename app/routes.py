@@ -1,70 +1,98 @@
 import csv
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash, session
+from app.models import Product, users  # Assurez-vous que le modèle d'utilisateur est importé
+from functools import wraps  # Importation de wraps pour le décorateur
 
 bp = Blueprint('main', __name__)
 
-# Route d'accueil
+# Définition du décorateur login_required
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('Vous devez vous connecter pour accéder à cette page.', 'error')
+            return redirect(url_for('main.login'))  # Redirige vers la page de connexion
+        return f(*args, **kwargs)
+    return decorated_function
+
+# Routes protégées
 @bp.route('/')
+@login_required
 def index():
-    products = load_products_from_csv('output/extime_products.csv')
+    return render_template('index.html')  # Affiche la page d'index
 
-    # Récupérer le terme de recherche
-    search_query = request.args.get('search', '').strip().lower()  # Récupère le terme de recherche depuis l'URL
+@bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        if username in users and users[username] == password:  # Validation de l'utilisateur
+            session['username'] = username  # Stocke le nom d'utilisateur dans la session
+            return redirect(url_for('main.index'))  # Redirige vers la page d'accueil après connexion
+        else:
+            flash('Nom d’utilisateur ou mot de passe incorrect.', 'error')
+            return redirect(url_for('main.login'))  # Redirige vers la page de connexion en cas d'erreur
 
-    # Filtrer les produits en fonction du terme de recherche
-    if search_query:
-        unique_products = {}
-        for product in products:
-            # Créer une clé unique basée sur le nom et d'autres caractéristiques
-            key = f"{product['name'].lower()}_{product.get('volume', '')}_{product.get('brand', '')}"
-            if search_query in product['name'].lower() and key not in unique_products:
-                unique_products[key] = product  # Ajouter le produit à l'ensemble des produits uniques
+    return render_template('login.html')
 
-        products = list(unique_products.values())  # Convertir l'ensemble en liste
-
-    # Pagination
-    page = request.args.get('page', 1, type=int)  # Récupère le numéro de page depuis l'URL
-    per_page = 30  # Nombre de produits par page
-    total_products = len(products)  # Nombre total de produits
-    start = (page - 1) * per_page  # Index de début
-    end = start + per_page  # Index de fin
-    paginated_products = products[start:end]  # Produits pour la page actuelle
-
-    # Calculer le nombre total de pages
-    total_pages = (total_products + per_page - 1) // per_page  # Arrondi vers le haut
-
-    # Déterminer les pages à afficher
-    max_displayed_pages = 5
-    start_page = max(1, page - 2)  # Commencer à afficher 2 pages avant la page actuelle
-    end_page = min(total_pages, start_page + max_displayed_pages - 1)  # Fin de l'affichage
-
-    # Ajuster le début si nécessaire
-    if end_page - start_page < max_displayed_pages - 1:
-        start_page = max(1, end_page - (max_displayed_pages - 1))
-
-    return render_template('index.html', products=paginated_products, page=page, total_pages=total_pages, start_page=start_page, end_page=end_page, search_query=search_query, total_products=total_products)
-
-def load_products_from_csv(filename):
-    """Load products from a given CSV file."""
+@login_required
+@bp.route('/api/products')
+def get_products():
     products = []
     try:
-        with open(filename, newline='', encoding='utf-8') as csvfile:
+        with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
             csvreader = csv.DictReader(csvfile)
             for row in csvreader:
-                products.append(row)  # Ajoutez directement la ligne au produit
-    except FileNotFoundError:
-        print(f"Le fichier {filename} n'a pas été trouvé.")
+                product = Product.from_csv_row(row)
+                products.append(product.convert_to_dic()) 
+    
     except Exception as e:
-        print(f"Erreur lors du chargement des produits depuis {filename}: {e}")
-    return products
+        return jsonify({"error": str(e)}), 500
 
-@bp.route('/about')
-def about():
-    return render_template('about.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = 30
+    total_pages = (len(products) + per_page - 1) // per_page
 
-@bp.route('/productSheet')
-def productSheet():
-    return render_template('productSheet.html')
+    start = (page - 1) * per_page
+    end = start + per_page
+    items_on_page = products[start:end]
 
-if __name__ == '__main__':
-    bp.run(debug=True)
+    return jsonify({
+        "products": items_on_page,
+        "total_pages": total_pages,
+        "current_page": page
+    })
+
+@login_required
+@bp.route('/<product_name>')
+def productSheet(product_name):
+    with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
+        csvreader = csv.DictReader(csvfile)
+        for row in csvreader:
+            if row['name'] == product_name:
+                product = Product.from_csv_row(row)
+                return render_template('productSheet.html', product=product)
+    return 'Product not found', 404
+
+@login_required
+@bp.route('/search')
+def search():
+    query = request.args.get('q', '').lower()
+    products = []
+
+    with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
+        csvreader = csv.DictReader(csvfile)
+        for row in csvreader:
+            # Vérifiez si la requête correspond au nom du produit ou à l'EAN
+            if query in row['name'].lower() or query in row['ean'].lower():
+                product = Product.from_csv_row(row)
+                products.append(product.convert_to_dic())
+    return jsonify(products)
+
+@login_required
+@bp.route('/logout')
+def logout():
+    session.pop('username', None)  # Supprime l'utilisateur de la session
+    flash('Vous avez été déconnecté.', 'info')
+    return redirect(url_for('main.login'))  # Redirige vers la page de connexion
