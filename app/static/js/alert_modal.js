@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     yesBtn.addEventListener('click', () => {
         //Lancer le bot de scrap ici
         
+        console.log("scrappy")
         alertModal.style.display = "none"
         overlay.style.display = "none"
     })
