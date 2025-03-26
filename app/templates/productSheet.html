@@ -13,6 +13,9 @@
         <h2>Dernière mise à jour : {{product.scraped_date}}</h2>
     </header>
     <main>
+        <!-- <div id="left-arrow">
+            <button type="button"><i class="fa-regular fa-square-caret-left"></i></button>
+        </div> -->
         <div id="sheet">
             <div id="informations">
                 <form id="form-product" action="/submit" method="get">
@@ -46,6 +49,9 @@
                 <img src="{{ url_for('static', filename='images/image.webp') }}" alt="Description de l'image">
             </div>
         </div>
+        <!-- <div id="right-arrow">
+            <button type="button"><i class="fa-regular fa-square-caret-right"></i></button>
+        </div> -->
 
         <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
     </main>
