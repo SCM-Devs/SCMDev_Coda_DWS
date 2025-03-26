@@ -1,6 +1,10 @@
 """
 Functions for scraping product data from product listings and details pages.
 """
+import requests
+from PIL import Image
+from io import BytesIO
+import os
 
 import re
 import time
@@ -54,6 +58,24 @@ def extract_product_info(product, is_cave):
         image_url = img_element.get('src') or img_element.get('data-src')
         if image_url and not image_url.startswith('http'):
             image_url = "https://www.extime.com" + image_url
+
+    # Convert image to webp
+    print("Image URL:", image_url)
+
+    response = requests.get(image_url, timeout=10)
+
+    image = Image.open(BytesIO(response.content))
+    print(image.format)
+
+    dossier = "test_image"
+    if not os.path.exists(dossier):
+        os.makedirs(dossier)
+
+    image_name = product_name.replace(" ", "_")
+    if image:
+        image.save(os.path.join(dossier, f"{image_name}.webp"), "WEBP")
+    else:
+        print("Erreur : Image non récupérée.")
     
     # Create product info dictionary based on category
     if is_cave:
@@ -62,7 +84,7 @@ def extract_product_info(product, is_cave):
             'name': product_name,
             'type_size': type_size,
             'product_url': product_url,
-            'image_url': image_url,
+            'image_url': f"{image_name}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
@@ -79,7 +101,7 @@ def extract_product_info(product, is_cave):
             'categorie': perfume_type,
             'volume': None,
             'url_origine': product_url,
-            'image_url': image_url,
+            'image_url': "{image_name}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }

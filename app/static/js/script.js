@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
             currentPage = data.current_page
             setQueryParam("page", currentPage)
-
     
             renderProducts(data.products)
             renderPagination(data.total_pages)
@@ -70,41 +69,39 @@ document.addEventListener("DOMContentLoaded", function () {
             pagination.style.display = "flex"
             searchPagination.style.display = "none"
 
-    
         } catch (error) {
             console.error("Erreur JSON ou réseau :", error)
         }
     }
     
-     async function fetchSearchResults(page) {
-         const query = searchInput.value.trim()
+    async function fetchSearchResults(page) {
+        const query = searchInput.value.trim()
 
-         if (!query) {
-             console.error("champ recherche vide")
-             return
-         }
+        if (!query) {
+            console.error("champ recherche vide")
+            return
+        }
 
-         try {
-             const response = await fetch(`/search?q=${query}&page=${page}`)
-             const data = await response.json()
-             if (data.error) {
-                 console.error("Erreur chargement res recherche", data.error)
-                 return
-             }
-             currentSearchPage = data.current_page
-             setQueryParam("searchPage", currentSearchPage)
-             pagination.style.display = "none"
+        try {
+            const response = await fetch(`/search?q=${query}&page=${page}`)
+            const data = await response.json()
+            if (data.error) {
+                console.error("Erreur chargement res recherche", data.error)
+                return
+            }
+            currentSearchPage = data.current_page
+            setQueryParam("searchPage", currentSearchPage)
+            pagination.style.display = "none"
 
-             searchPagination.style.display = "block"
+            searchPagination.style.display = "block"
 
 
-             renderProducts(data.products)
-             renderSearchPagination(data.total_pages)
-         } catch (error) {
-             console.error("eeurur réseau", error)
-         }
-     }
-
+            renderProducts(data.products)
+            renderSearchPagination(data.total_pages)
+        } catch (error) {
+            console.error("eeurur réseau", error)
+        }
+    }
 
     function renderProducts(products) {
         //mettre qd recherche lapage recherhce pour lien éventuel ??
