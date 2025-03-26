@@ -107,7 +107,7 @@ def save_to_csv(data, filename='extime_products.csv'):
         # Make sure dimensions is included in fieldnames
         fieldnames = ['id', 'brand', 'name', 'type_size', 'product_url', 'image_url', 
                       'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume',
-                      'materiaux', 'nom_d_origine', 'dimensions']
+                      'materiaux', 'nom_d_origine', 'dimensions', 'status']
         
         # Find any extra fields in the data that aren't in fieldnames
         extra_fields = set()

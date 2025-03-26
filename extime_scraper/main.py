@@ -41,6 +41,12 @@ def main():
             
             for product in filtered_products:
                 product['dimensions'] = ''
+
+            for product in filtered_products:
+                product['status'] = '0'
+            
+            for product in filtered_products:
+                product['nom_d_origine'] = ''
                 
             all_collected_products.extend(filtered_products)
         else:

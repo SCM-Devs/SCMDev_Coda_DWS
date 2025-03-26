@@ -39,4 +39,4 @@ def ajouter_champs_csv(chemin_fichier, nouveaux_champs=None):
 if __name__ == "__main__":
     chemin_fichier = input("Entrez le chemin complet du fichier CSV: ")
     
-    ajouter_champs_csv(chemin_fichier, ["materiaux", "nom_d_origine", "dimensions"])
+    ajouter_champs_csv(chemin_fichier, ["materiaux", "nom_d_origine", "dimensions", "status"])
