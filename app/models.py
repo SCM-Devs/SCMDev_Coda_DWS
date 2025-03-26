@@ -1,12 +1,17 @@
 class Product:
-    def __init__(self, brand, name, categorie, volume, scraped_date, net_weight):
+    def __init__(self, brand, name, categorie, volume, scraped_date, net_weight, image_url, materiaux, nom_d_origine, dimensions, status):
         self.brand  = brand
         self.name  = name
         self.categorie  = categorie
         self.volume  = volume
         self.scraped_date  = scraped_date
         self.net_weight  = net_weight
-
+        self.image_url = image_url
+        self.materiaux = materiaux
+        self.nom_d_origine = nom_d_origine
+        self.dimensions = dimensions
+        self.status = status
+        
     def convert_to_dic(self):
         return {
             'brand' : self.brand,
@@ -14,7 +19,12 @@ class Product:
             'categorie' : self.categorie,
             'volume' : self.volume,
             'scraped_date' : self.scraped_date,
-            'net_weight' : self.net_weight
+            'net_weight' : self.net_weight,
+            'image_url' : self.image_url,
+            'materiaux' : self.materiaux,
+            'nom_d_origine' : self.nom_d_origine,
+            'dimensions' : self.dimensions,
+            'status' : self.status
         }
     
     @classmethod
@@ -25,6 +35,11 @@ class Product:
             row['categorie'],
             row['volume'],
             row['scraped_date'],
-            row['net_weight']
+            row['net_weight'],
+            row['image_url'],
+            row['materiaux'],
+            row['nom_d_origine'],
+            row['dimensions'],
+            row['status']
         )
     

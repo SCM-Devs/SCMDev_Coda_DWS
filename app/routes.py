@@ -1,6 +1,6 @@
 import csv
 import requests
-
+import os
 from flask import Blueprint, render_template, jsonify, request
 from app.models import Product
 import subprocess
@@ -31,21 +31,20 @@ def index():
 @bp.route('/scrap-run', methods=['GET'])
 def scrap_run():
     try:
-        # 🔹 Lancer le script Python de scraping
-        process = subprocess.Popen([sys.executable, "scrappy.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # 🔹 Définir le chemin relatif basé sur ce fichier
+        script_path = os.path.join(os.path.dirname(__file__), "../extime_scraper/main.py")
+
+        # 🛠 Vérifier si le fichier existe
+        if not os.path.exists(script_path):
+            return jsonify({"error": f"Fichier introuvable: {script_path}"}), 500
+
+        # 🔥 Lancer le script
+        process = subprocess.Popen([sys.executable, script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         returncode = process.returncode
 
-        # 🛠 Gestion de l'encodage de sortie (UTF-8 ou CP1252 pour Windows)
-        try:
-            output = stdout.decode("utf-8")
-        except UnicodeDecodeError:
-            output = stdout.decode("cp1252")
-
-        try:
-            error_output = stderr.decode("utf-8")
-        except UnicodeDecodeError:
-            error_output = stderr.decode("cp1252")
+        output = stdout.decode("utf-8", errors="ignore")
+        error_output = stderr.decode("utf-8", errors="ignore")
 
         if returncode == 0:
             return jsonify({"message": "Scraping terminé", "output": output}), 200

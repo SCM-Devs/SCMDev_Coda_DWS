@@ -18,8 +18,11 @@ from extime_scraper.data_processing import save_to_csv, postprocess_product_data
 def main():
     """Main function with optimized execution flow"""
     # Chemin vers le répertoire "extime_scraper" lui-même
-    output_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Remonter d'un niveau
+    output_dir = os.path.join(base_dir, "app", "output")
+    
     os.makedirs(output_dir, exist_ok=True)
+
     
     # Use single timestamp for all files
     all_collected_products = []

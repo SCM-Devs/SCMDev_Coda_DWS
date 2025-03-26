@@ -95,7 +95,7 @@ def load_existing_data(filename):
     
     return existing_data, max_id
 
-def save_to_csv(data, filename='extime_products.csv'):    
+def save_to_csv(data, filename='extime_perfumes.csv'):    
     try:
         # Load existing data and get the highest existing ID
         existing_data, max_id = load_existing_data(filename)

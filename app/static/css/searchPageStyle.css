@@ -93,6 +93,13 @@ main{
     width: 85%;
 }
 
+#log-output{
+    background:  #d4d4d4; 
+    padding: 10px; 
+    border: 1px solid #d4d4d4;
+    border-radius: 50px;
+}
+
 #dropdown-btn {
     width: 38.19%;
     height: 50px;
