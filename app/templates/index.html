@@ -10,7 +10,7 @@
 <body>
     <header>
         <a href="{{ url_for('main.index') }}" id="main-link"><h1>Scraping Extime</h1></a>
-        <h2>Dernière mise à jour : XX/XX/XXXX</a>
+        <h2>Dernière mise à jour : {{scraped_date}}</h2>
     </header>
     <main>
         <section class="action-line">

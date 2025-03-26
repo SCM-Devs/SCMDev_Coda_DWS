@@ -8,7 +8,17 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('index.html')
+    last_scraped_date = None
+    try:
+        with open('app/output/extime_products.csv', newline='', encoding='utf-8') as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                last_scraped_date = row['scraped_date']
+                break
+    except Exception as e:
+        last_scraped_date = "Date inconnue"
+
+    return render_template('index.html', scraped_date=last_scraped_date)
 
 @bp.route('/api/products')
 def get_products():
