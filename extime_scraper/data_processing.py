@@ -108,6 +108,9 @@ def save_to_csv(data, filename):
             'materiaux', 'nom_d_origine', 'dimensions', 'status'
         ]
 
+        # Charger les données existantes pour obtenir le max ID
+        existing_data, max_id = load_existing_data(general_filename)
+
         # Supprimer les doublons basés sur 'url_origine' ou 'product_url'
         unique_data = []
         seen_urls = set()
@@ -116,6 +119,12 @@ def save_to_csv(data, filename):
             key = item.get('product_url') or item.get('url_origine')
             if key and key not in seen_urls:
                 seen_urls.add(key)
+
+                # Assigner un ID unique si le produit n'en a pas
+                if 'id' not in item or not item['id']:
+                    max_id += 1
+                    item['id'] = str(max_id)
+
                 unique_data.append(item)
 
         # Écriture du fichier CSV (VIDE l'ancien et écrit seulement les nouveaux produits)
@@ -126,11 +135,11 @@ def save_to_csv(data, filename):
             for item in unique_data:
                 print(item)
 
-
         print(f"Enregistré {len(unique_data)} produits dans {general_filename}")
 
         return True
     except Exception as e:
         print(f"Erreur lors de la sauvegarde du CSV : {e}")
         return False
+
 
