@@ -81,71 +81,56 @@ def load_existing_data(filename):
     max_id = 0
     
     if os.path.exists(filename):
-        with open(filename, 'r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                # Use a unique identifier for each product, e.g., 'url_origine' for parfums
-                key = row.get('url_origine') or row.get('product_url')
-                if key:
-                    existing_data[key] = row
+         with open(filename, 'r', encoding='utf-8') as f:
+             reader = csv.DictReader(f)
+             for row in reader:
+                 # Use a unique entifier for each product, e.g., 'url_origine' for parfums
+                 key = row.get('url_origine') or row.get('product_url')
+                 if key:
+                     existing_data[key] = row
                     
-                # Track the maximum ID
-                if 'id' in row and row['id'] and row['id'].isdigit():
-                    max_id = max(max_id, int(row['id']))
+                 # Track the maximum ID
+                 if 'id' in row and row['id'] and row['id'].isdigit():
+                     max_id = max(max_id, int(row['id']))
     
     return existing_data, max_id
 
-def save_to_csv(data, filename='extime_perfumes.csv'):    
+def save_to_csv(data, filename):
     try:
-        # Load existing data and get the highest existing ID
-        existing_data, max_id = load_existing_data(filename)
-
         # Base filename
         base_filename = os.path.splitext(filename)[0]
         general_filename = f"{base_filename}.csv"
-        
-        # Make sure dimensions is included in fieldnames
-        fieldnames = ['id', 'brand', 'name', 'type_size', 'product_url', 'image_url', 
-                      'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume',
-                      'materiaux', 'nom_d_origine', 'dimensions', 'status']
-        
-        # Find any extra fields in the data that aren't in fieldnames
-        extra_fields = set()
-        for item in data:
-            for key in item:
-                if key not in fieldnames:
-                    extra_fields.add(key)
-        
-        # Add any extra fields to fieldnames
-        if extra_fields:
-            print(f"Adding extra fields to CSV: {', '.join(extra_fields)}")
-            fieldnames.extend(extra_fields)
 
-        # Prepare rows for writing
-        rows = []
-        current_id = max_id
-        
+        # Champs du CSV
+        fieldnames = [
+            'id', 'brand', 'name', 'type_size', 'product_url', 'image_url',
+            'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume',
+            'materiaux', 'nom_d_origine', 'dimensions', 'status'
+        ]
+
+        # Supprimer les doublons basés sur 'url_origine' ou 'product_url'
+        unique_data = []
+        seen_urls = set()
+
         for item in data:
             key = item.get('product_url') or item.get('url_origine')
-            
-            if key in existing_data:
-                # Update existing entry but keep its ID
-                existing_entry = existing_data[key]
-                existing_entry.update(item)
-                rows.append(existing_entry)
-            else:
-                # This is a new product, assign a new ID
-                current_id += 1
-                item['id'] = str(current_id)
-                rows.append(item)
-            
+            if key and key not in seen_urls:
+                seen_urls.add(key)
+                unique_data.append(item)
+
+        # Écriture du fichier CSV (VIDE l'ancien et écrit seulement les nouveaux produits)
         with open(general_filename, 'w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows(rows)
-        print(f"Updated {len(rows)} products in {general_filename}")
-        
+            writer.writerows(unique_data)
+            for item in unique_data:
+                print(item)
+
+
+        print(f"Enregistré {len(unique_data)} produits dans {general_filename}")
+
         return True
     except Exception as e:
-        print(f"Error saving CSV: {e}")
+        print(f"Erreur lors de la sauvegarde du CSV : {e}")
         return False
+

@@ -10,61 +10,56 @@
 <body>
     <header>
         <a href="{{ url_for('main.index') }}"><h1>Scraping Extime</h1></a>
-        <h2>Dernière mise à jour : {{ product.scraped_date }}</a>
+        <h2>Dernière mise à jour : {{ product.scraped_date }}</h2>
     </header>
     <main>
         <div id="sheet">
             <div id="informations">
-                <form id="form-product" action="/submit" method="get">
-                    <input id="name-product" type="text" value="{{ product.name }}"></input>
+                <form id="form-product" action="{{ url_for('main.submit') }}" method="post">
+                    <input type="hidden" name="id" value="{{ product.id }}">
 
-                    <label for="">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">
+                    <label for="name-product">Nom du produit :</label>
+                    <input id="name-product" name="name-product" type="text" value="{{ product.name }}">
+
+                    <label for="nom_d_origine">Nom Visuel : </label>
+                    <input id="nom_d_origine" name="nom_d_origine" type="text" value="{{ product.nom_d_origine }}">
 
                     <label for="category">Catégorie : </label>
-                    <input id="category" type="text" value="{{ product.categorie }}">
+                    <input id="category" name="category" type="text" value="{{ product.categorie }}">
 
                     <label for="brand">Marque : </label>
-                    <input id="brand" type="text" value="{{ product.brand }}">
+                    <input id="brand" name="brand" type="text" value="{{ product.brand }}">
 
                     <label for="volume">Volume : </label>
-                    <input id="volume" type="text" value="{{ product.volume }}">
+                    <input id="volume" name="volume" type="text" value="{{ product.volume }}">
 
-                    <label for="net_weight">Dimensions : </label>
-                    <input id="net_weight" type="text" value="{{ product.dimensions }}">
-
-                    <label for="net_weight">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">
+                    <label for="dimensions">Dimensions : </label>
+                    <input id="dimensions" name="dimensions" type="text" value="{{ product.dimensions }}">
 
                     <label for="net_weight">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">
-
-                    <label for="net_weight">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">
-
-                    <label for="net_weight">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">
-
-                    <label for="net_weight">Poids net : </label>
-                    <input id="net_weight" type="text" value="{{ product.net_weight }}">materiaux,nom_d_origine,dimensions,status
+                    <input id="net_weight" name = "net_weight" type="text" value="{{ product.net_weight }}">
+                    
+                    <div id="material">
+                        <button type="button" id="dropdown-btn">Matériau</button>                
+                        <ul id="dropdown-menu" data-value="material" class="dropdown-content">
+                            <li data-value="Verre neutre">Verre neutre</li>
+                            <li data-value="Verre laqué">Verre laqué</li>
+                            <li data-value="Verre teinté masse de mémoire">Verre teinté masse de mémoire</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn">Sauvegarder</button>
 
                 </form>
 
-                <div id="material">
-                    <button id="dropdown-btn">Matériau</button>                
-                    <ul id="dropdown-menu" data-value="material" class="dropdown-content">
-                        <li data-value="Aluminium">Aluminium</li>
-                        <li data-value="Or">Or</li>
-                        <li data-value="Vibranium">Vibranium</li>
-                    </ul>
-                </div>
+                
 
-                <button type="button">Sauvegarder</button>
             </div>
             <div id="img-container">
-                <img src="{{ url_for('static', filename='images/image.webp') }}" alt="Description de l'image">
+                <img src="{{ url_for('static', filename='images/' + product.image_url) }}" alt="image {{ product.image_url }}">
             </div>
         </div>
+        <script src="{{ url_for('static', filename='js/form.js') }}"></script>
 
         <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
     </main>

@@ -9,7 +9,12 @@ import concurrent.futures
 from datetime import datetime
 from functools import lru_cache
 import sys
+import os
+import requests
 from pathlib import Path
+from PIL import Image
+from io import BytesIO
+
 
 # Add the parent directory to sys.path if this module is run directly
 if __name__ == "__main__":
@@ -55,14 +60,34 @@ def extract_product_info(product, is_cave):
         if image_url and not image_url.startswith('http'):
             image_url = "https://www.extime.com" + image_url
     
-    # Create product info dictionary based on category
+    # Convert image to webp
+    print("Image URL:", image_url)
+
+    response = requests.get(image_url, timeout=10)
+
+    image = Image.open(BytesIO(response.content))
+    print(image.format)
+
+    project_root = Path(__file__).parent.parent  
+    dossier = project_root / "app" / "static" / "images"
+   
+    if not os.path.exists(dossier):
+        os.makedirs(dossier)
+
+    image_name = product_name.replace(" ", "")
+    if image:
+        image.save(os.path.join(dossier, f"{image_name}.webp"), "WEBP")
+    else:
+        print("Erreur : Image non récupérée.")
+
+# Create product info dictionary based on category
     if is_cave:
         product_info = {
             'brand': brand,
             'name': product_name,
             'type_size': type_size,
             'product_url': product_url,
-            'image_url': image_url,
+            'image_url': f"{image_name}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
@@ -72,14 +97,14 @@ def extract_product_info(product, is_cave):
         if type_size:
             type_match = re.search(r'(Eau de Parfum|Eau de Toilette|Extrait)', type_size)
             perfume_type = type_match.group(1) if type_match else None
-        
+
         product_info = {
             'brand': brand,
             'name': product_name,
             'categorie': perfume_type,
             'volume': None,
             'url_origine': product_url,
-            'image_url': image_url,
+            'image_url': f"{image_name}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }

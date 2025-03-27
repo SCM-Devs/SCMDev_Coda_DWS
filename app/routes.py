@@ -1,7 +1,7 @@
 import csv
 import requests
 import os
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, url_for, redirect
 from app.models import Product
 import subprocess
 import sys
@@ -120,12 +120,56 @@ def search():
     start = (page - 1) * per_page
     end = start + per_page
     items_on_page = products[start:end]
-
+    print(items_on_page)
     return jsonify({
         "products": items_on_page,
         "total_pages": total_pages,
         "current_page": page
     })
+
+@bp.route('/submit', methods=['POST'])
+def submit():
+    csv_file = 'app/output/extime_products.csv'
+    temp_file = 'app/output/temp_products.csv'
     
+    # Récupérer l'ID du produit
+    product_id = request.form.get('id')  
+    if not product_id:
+        return "ID du produit manquant", 400
+    
+    # Récupérer uniquement les données envoyées (sans modifier les valeurs non présentes dans le formulaire)
+    updates = {
+        "brand": request.form.get("brand"),
+        "name": request.form.get("name-product"),
+        "categorie": request.form.get("category"),
+        "nom_d_origine": request.form.get("nom_d_origine"),
+        "net_weight": request.form.get("net_weight"),
+        "volume": request.form.get("volume"),
+        "dimensions": request.form.get("dimensions"),
+    }
+
+    updated = False
+    with open(csv_file, mode='r', newline='', encoding='utf-8') as infile, \
+         open(temp_file, mode='w', newline='', encoding='utf-8') as outfile:
+
+        reader = csv.DictReader(infile)
+        fieldnames = reader.fieldnames  
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for row in reader:
+            if row["id"] == product_id:  
+                for key, value in updates.items():
+                    row[key] = value
+                updated = True
+            
+            writer.writerow(row)
+
+    if updated:
+        os.replace(temp_file, csv_file)  # Remplace l'ancien fichier CSV par le nouveau
+    else:
+        os.remove(temp_file)  # Supprime le fichier temporaire s'il n'a pas été modifié
+
+    return redirect(url_for('main.index'))
 
 
