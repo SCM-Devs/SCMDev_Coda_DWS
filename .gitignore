@@ -3,5 +3,5 @@ __pycache__/
 app/__pycache__/
 app/output/*
 app/output/.gitkeep
-image/*
-!image/.gitkeep
+app/static/images/*
+!app/static/images/.gitkeep
