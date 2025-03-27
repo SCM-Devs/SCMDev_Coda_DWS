@@ -14,6 +14,7 @@ from datetime import datetime
 from functools import lru_cache
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Add the parent directory to sys.path if this module is run directly
 if __name__ == "__main__":
@@ -65,15 +66,25 @@ def extract_product_info(product, is_cave):
     response = requests.get(image_url, timeout=10)
 
     image = Image.open(BytesIO(response.content))
-    print(image.format)
 
     dossier = "image"
     if not os.path.exists(dossier):
         os.makedirs(dossier)
 
     image_name = product_name.replace(" ", "_")
+
+    parsed_url = urlparse(image_url)
+    print(parsed_url)
+
+    # Récupérer seulement le "nom du fichier" dans l'URL
+    image_url_part = parsed_url.query.split("_")[1]
+    print(image_url_part)
+    image_id_part = parsed_url.query.split("_")[-1]
+    image_final_part = image_url_part + "_" + image_id_part.split(".")[0]
+
     if image:
-        image.save(os.path.join(dossier, f"{image_name}.webp"), "WEBP")
+        image.save(os.path.join(dossier, f"{image_name}-{image_final_part}.webp"), "WEBP")
+        print(f"{image_name}-{image_final_part}.webp")
     else:
         print("Erreur : Image non récupérée.")
     
@@ -84,7 +95,7 @@ def extract_product_info(product, is_cave):
             'name': product_name,
             'type_size': type_size,
             'product_url': product_url,
-            'image_url': f"{image_name}.webp",
+            'image_url': f"{image_name}-{image_url_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
@@ -101,7 +112,7 @@ def extract_product_info(product, is_cave):
             'categorie': perfume_type,
             'volume': None,
             'url_origine': product_url,
-            'image_url': "{image_name}.webp",
+            'image_url': f"{image_name}-{image_url_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
