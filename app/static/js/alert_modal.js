@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const scrapBtn = document.querySelector("#scrap-btn")
+    const overlay = document.querySelector("#overlay")
     const alertModal = document.querySelector("#alert-message")
     const logOutput = document.querySelector("#log-output")
     const yesBtn = document.getElementById("yes-alert-btn")
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scrapBtn.addEventListener('click', () => {
         alertModal.style.display = "flex"
+        overlay.style.display = "flex"
     })
 
     yesBtn.addEventListener('click', async () => {
@@ -45,9 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Erreur lors de l'exécution", error)
             logOutput.innerHTML += `<p style="color: red;">❌ Erreur lors de l'exécution : ${error.message}</p>`
         }
+
     })
 
     noBtn.addEventListener('click', () => {
         alertModal.style.display = "none"
+        overlay.style.display = "none"
     })
 })

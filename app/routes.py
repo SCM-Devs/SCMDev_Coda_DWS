@@ -27,7 +27,6 @@ def index():
     return render_template('index.html', scraped_date=last_scraped_date)
 
 
-
 @bp.route('/scrap-run', methods=['GET'])
 def scrap_run():
     try:
