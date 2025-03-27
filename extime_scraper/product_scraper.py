@@ -84,7 +84,7 @@ def extract_product_info(product, is_cave):
 
     if image:
         image.save(os.path.join(dossier, f"{image_name}-{image_final_part}.webp"), "WEBP")
-        print(f"{image_name}-{image_final_part}.webp")
+        print(f"{image_name}-{image_final_part}.webp") 
     else:
         print("Erreur : Image non récupérée.")
     
