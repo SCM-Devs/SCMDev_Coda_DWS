@@ -12,7 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     yesBtn.addEventListener('click', async () => {
-        logOutput.style.backgroundColor = 'white'
+        overlay.style.display = "none"
+
+        logOutput.classList.add("glass-effect")  
+        logOutput.style.backgroundColor = 'rgba(255, 255, 255, 0.6)' 
         logOutput.style.border = '2px solid green'
         logOutput.innerHTML = "<p>Lancement du scraping... veuillez attendre le prochain message avant de faire quoi que ce soit</p>"
         alertModal.style.display = "none"
@@ -24,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 logOutput.textContent = ''
                 logOutput.innerHTML += `<p style="color: green;">✅ Scrapping terminé veuillez rechercher la page</p>`
-                logOutput.style.backgroundColor = ' #d4d4d4'
+                logOutput.classList.add("glass-effect")   
+                logOutput.style.backgroundColor = 'rgba(255, 255, 255, 0.6)' 
                 logOutput.style.border = '2px solid  #d4d4d4'
 
 

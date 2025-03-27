@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     dropdownBtn.addEventListener("click", function() {
         dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block"
-    });
+    })
 
     dropdownMenu.addEventListener("click", function(event) {
         if (event.target.tagName === "LI") {
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function(){
             
             dropdownMenu.style.display = "none"
         }
-    });
+    })
 
     document.addEventListener("click", function(event) {
         if (!dropdownBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
             dropdownMenu.style.display = "none"
         }
-    });
-});
+    })
+})
