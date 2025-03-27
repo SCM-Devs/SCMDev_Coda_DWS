@@ -5,4 +5,5 @@ app/output/*
 app/output/.gitkeep
 app/static/images/*
 !app/static/images/.gitkeep
-
+image/*
+image/.gitkeep
