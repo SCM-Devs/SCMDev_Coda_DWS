@@ -63,13 +63,15 @@ def extract_product_info(product, is_cave):
             image_url = "https://www.extime.com" + image_url
 
     # Convert image to webp
+    # Convert image to webp
     print("Image URL:", image_url)
-
     response = requests.get(image_url, timeout=10)
-
     image = Image.open(BytesIO(response.content))
+    print(image.format)
+    
+    project_root = Path(__file__).parent.parent
+    dossier = project_root / "app" / "static" / "images"
 
-    dossier = "image"
     if not os.path.exists(dossier):
         os.makedirs(dossier)
 
@@ -89,35 +91,15 @@ def extract_product_info(product, is_cave):
         print(f"{image_name}-{image_final_part}.webp") 
     else:
         print("Erreur : Image non récupérée.")
-    
-    # Convert image to webp
-    print("Image URL:", image_url)
 
-    response = requests.get(image_url, timeout=10)
-
-    image = Image.open(BytesIO(response.content))
-    print(image.format)
-
-    project_root = Path(__file__).parent.parent  
-    dossier = project_root / "app" / "static" / "images"
-   
-    if not os.path.exists(dossier):
-        os.makedirs(dossier)
-
-    image_name = product_name.replace(" ", "")
-    if image:
-        image.save(os.path.join(dossier, f"{image_name}.webp"), "WEBP")
-    else:
-        print("Erreur : Image non récupérée.")
-
-# Create product info dictionary based on category
+    # Create product info dictionary based on category
     if is_cave:
         product_info = {
             'brand': brand,
             'name': product_name,
             'type_size': type_size,
             'product_url': product_url,
-            'image_url': f"{image_name}-{image_url_part}.webp",
+            'image_url': f"{image_name}-{image_final_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
@@ -134,11 +116,10 @@ def extract_product_info(product, is_cave):
             'categorie': perfume_type,
             'volume': None,
             'url_origine': product_url,
-            'image_url': f"{image_name}-{image_url_part}.webp",
+            'image_url': f"{image_name}-{image_final_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
-    
     # Try to extract volume from type_size only for parfums
     if not is_cave and type_size and not product_info['volume']:
         extracted_volume = extract_volume_from_text(type_size)

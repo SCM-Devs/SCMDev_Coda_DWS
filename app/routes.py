@@ -30,14 +30,11 @@ def index():
 @bp.route('/scrap-run', methods=['GET'])
 def scrap_run():
     try:
-        # 🔹 Définir le chemin relatif basé sur ce fichier
         script_path = os.path.join(os.path.dirname(__file__), "../extime_scraper/main.py")
 
-        # 🛠 Vérifier si le fichier existe
         if not os.path.exists(script_path):
             return jsonify({"error": f"Fichier introuvable: {script_path}"}), 500
 
-        # 🔥 Lancer le script
         process = subprocess.Popen([sys.executable, script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         returncode = process.returncode
@@ -131,12 +128,10 @@ def submit():
     csv_file = 'app/output/extime_products.csv'
     temp_file = 'app/output/temp_products.csv'
     
-    # Récupérer l'ID du produit
     product_id = request.form.get('id')  
     if not product_id:
         return "ID du produit manquant", 400
     
-    # Récupérer uniquement les données envoyées (sans modifier les valeurs non présentes dans le formulaire)
     updates = {
         "brand": request.form.get("brand"),
         "name": request.form.get("name-product"),
@@ -165,9 +160,9 @@ def submit():
             writer.writerow(row)
 
     if updated:
-        os.replace(temp_file, csv_file)  # Remplace l'ancien fichier CSV par le nouveau
+        os.replace(temp_file, csv_file)  
     else:
-        os.remove(temp_file)  # Supprime le fichier temporaire s'il n'a pas été modifié
+        os.remove(temp_file)  
 
     return redirect(url_for('main.index'))
 

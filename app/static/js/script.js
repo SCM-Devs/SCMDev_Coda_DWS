@@ -15,17 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const pagination = document.getElementById("pagination")
     const searchPagination = document.getElementById("search-pagination")
 
-
-    function getQueryParam(param, defaultValue) {
-        const url = window.location.search
-        const params = new URLSearchParams(url)
-        const value = params.get(param)
-        if (value === null) {
-            return defaultValue
-        }
-        return value
-    }
-
     function setQueryParam(param, value) {
         const url = new URL(window.location)
         const params = url.searchParams
@@ -47,8 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const params = new URLSearchParams(url)
         return params.has("q")
     }
-
-
 
     async function fetchProducts(page) {
         try {
@@ -104,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderProducts(products) {
-        //mettre qd recherche lapage recherhce pour lien éventuel ??
         container.innerHTML = products.map(product => `
             <div class="productCard">
                 <a href="/${product.name}" class="Card" data-page="${currentPage}">
@@ -112,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <img src="../static/images/${product.image_url}" alt="Description de l'image">
                     </div>
                     <div class="fastInformations">
+                        <h3>${product.nom_d_origine}</h3>
                         <p>Nom : ${product.name}</p>
                         <p>Marque : ${product.brand}</p>
                         <p>Volume : ${product.volume}</p>
@@ -245,7 +232,4 @@ document.addEventListener("DOMContentLoaded", function () {
      } else {
         fetchProducts(currentPage)
      }
-
-      
-
 })

@@ -37,7 +37,7 @@ main > button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 93vh;
+    height: 100vh;
     width: 97%;
     background-color: whitesmoke;
 }
@@ -70,7 +70,7 @@ label, input{
 }
 
 input {
-    margin: 10px 0;
+    margin-bottom: 10px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -114,7 +114,8 @@ input {
     cursor: pointer;
 }
 
-#informations > button{
+#form-product > button{
+    margin-top: 30px;
     width: 100%;
     height: 60px;
     text-align: center;
