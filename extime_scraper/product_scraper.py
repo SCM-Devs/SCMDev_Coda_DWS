@@ -1,6 +1,10 @@
 """
 Functions for scraping product data from product listings and details pages.
 """
+import requests
+from PIL import Image
+from io import BytesIO
+import os
 
 import re
 import time
@@ -12,9 +16,7 @@ import sys
 import os
 import requests
 from pathlib import Path
-from PIL import Image
-from io import BytesIO
-
+from urllib.parse import urlparse
 
 # Add the parent directory to sys.path if this module is run directly
 if __name__ == "__main__":
@@ -59,6 +61,34 @@ def extract_product_info(product, is_cave):
         image_url = img_element.get('src') or img_element.get('data-src')
         if image_url and not image_url.startswith('http'):
             image_url = "https://www.extime.com" + image_url
+
+    # Convert image to webp
+    print("Image URL:", image_url)
+
+    response = requests.get(image_url, timeout=10)
+
+    image = Image.open(BytesIO(response.content))
+
+    dossier = "image"
+    if not os.path.exists(dossier):
+        os.makedirs(dossier)
+
+    image_name = product_name.replace(" ", "_")
+
+    parsed_url = urlparse(image_url)
+    print(parsed_url)
+
+    # Récupérer seulement le "nom du fichier" dans l'URL
+    image_url_part = parsed_url.query.split("_")[1]
+    print(image_url_part)
+    image_id_part = parsed_url.query.split("_")[-1]
+    image_final_part = image_url_part + "_" + image_id_part.split(".")[0]
+
+    if image:
+        image.save(os.path.join(dossier, f"{image_name}-{image_final_part}.webp"), "WEBP")
+        print(f"{image_name}-{image_final_part}.webp") 
+    else:
+        print("Erreur : Image non récupérée.")
     
     # Convert image to webp
     print("Image URL:", image_url)
@@ -87,7 +117,7 @@ def extract_product_info(product, is_cave):
             'name': product_name,
             'type_size': type_size,
             'product_url': product_url,
-            'image_url': f"{image_name}.webp",
+            'image_url': f"{image_name}-{image_url_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
@@ -104,7 +134,7 @@ def extract_product_info(product, is_cave):
             'categorie': perfume_type,
             'volume': None,
             'url_origine': product_url,
-            'image_url': f"{image_name}.webp",
+            'image_url': f"{image_name}-{image_url_part}.webp",
             'scraped_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'net_weight': None
         }
