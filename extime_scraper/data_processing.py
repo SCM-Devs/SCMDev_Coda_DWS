@@ -95,46 +95,43 @@ def postprocess_product_data(products):
 
 #     return existing_data, max_id
 
-def save_to_csv(data, filename='extime_products.csv'):
+def save_to_csv(data, filename):
     try:
-        # Load existing data and get the highest existing ID
-        # existing_data, max_id = load_existing_data(filename)
-
-        # Base filenamey
+        # Base filename
         base_filename = os.path.splitext(filename)[0]
         general_filename = f"{base_filename}.csv"
 
-        # Make sure dimensions is included in fieldnames
-        fieldnames = ['id', 'brand', 'name', 'type_size', 'product_url', 'image_url',
-                      'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume',
-                      'materiaux', 'nom_d_origine', 'dimensions', 'status']
+        # Champs du CSV
+        fieldnames = [
+            'id', 'brand', 'name', 'type_size', 'product_url', 'image_url',
+            'scraped_date', 'net_weight', 'categorie', 'url_origine', 'volume',
+            'materiaux', 'nom_d_origine', 'dimensions', 'status'
+        ]
 
-        # Find any extra fields in the data that aren't in fieldnames
-        extra_fields = set()
+        # Supprimer les doublons basés sur 'url_origine' ou 'product_url'
+        unique_data = []
+        seen_urls = set()
+        current_id = 1
+
         for item in data:
-            for key in item:
-                if key not in fieldnames:
-                    extra_fields.add(key)
+            key = item.get('product_url') or item.get('url_origine')
+            if key and key not in seen_urls:
+                seen_urls.add(key)
+                
+                # Assigner un ID unique
+                item['id'] = str(current_id)
+                current_id += 1
+                
+                unique_data.append(item)
 
-        # Add any extra fields to fieldnames
-        if extra_fields:
-            print(f"Adding extra fields to CSV: {', '.join(extra_fields)}")
-            fieldnames.extend(extra_fields)
-
-        # Assign new IDs incrementally
-        current_id = 0
-        for item in data:
-            current_id += 1
-            item['id'] = str(current_id)
-
-        # Write to CSV
+        # Écriture du fichier CSV (VIDE l'ancien et écrit seulement les nouveaux produits)
         with open(general_filename, 'w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
-            writer.writerows(data)
-        
-        print(f"Saved {len(data)} products in {general_filename}")
+            writer.writerows(unique_data)
+
+        print(f"Enregistré {len(unique_data)} produits dans {general_filename}")
         return True
     except Exception as e:
-        print(f"Error saving CSV: {e}")
+        print(f"Erreur lors de la sauvegarde du CSV : {e}")
         return False
