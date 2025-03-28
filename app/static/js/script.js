@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setQueryParam("searchPage", currentSearchPage)
             pagination.style.display = "none"
 
-            searchPagination.style.display = "block"
+            searchPagination.style.display = "flex"
 
 
             renderProducts(data.products)
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = startPage; i <= endPage; i++) {
             const pageLink = document.createElement("a")
             pageLink.innerText = i
-            pageLink.className = "pagination-btn"
+            pageLink.className = "search-pagination-btn"
             if (i === currentSearchPage) pageLink.style.fontWeight = "bold"
     
             pageLink.addEventListener("click", function (e) {
@@ -172,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         const nextButton = document.createElement("a")
         nextButton.innerText = "Suivant"
+        nextButton.id = "next-search"
         nextButton.style.opacity = currentSearchPage < totalPages ? "1" : "0.5"
         nextButton.addEventListener("click", function (e) {
             e.preventDefault()

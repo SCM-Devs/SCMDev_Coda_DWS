@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("form-product")
 
     form.addEventListener("submit", function(e) {
-        const visibleName = document.getElementById("nom_d_origine").value
+        const id = document.getElementById("id").value
+        console.log("Valeur du matériau : ", document.querySelector("#material-value").value)
 
-        if (!visibleName.trim()) {
+        if (!id.trim()) {
             e.preventDefault()
             alert("Veuillez remplir tous les champs obligatoires !")
         } else {

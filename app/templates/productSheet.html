@@ -22,8 +22,9 @@
                 <form id="form-product" action="{{ url_for('main.submit') }}" method="post">
                     <input type="hidden" name="id" value="{{ product.id }}">
 
-                    <label for="name-product">Nom du produit :</label>
-                    <input id="name-product" name="name-product" type="text" value="{{ product.name }}">
+                    <h1>{{ product.name }}</h1>
+                    <!-- <label for="name-product">Nom du produit :</label>
+                    <input id="name-product" name="name-product" type="text" value="{{ product.name }}"> -->
 
                     <label for="nom_d_origine">Nom Visuel : </label>
                     <input id="nom_d_origine" name="nom_d_origine" type="text" value="{{ product.nom_d_origine }}">
@@ -44,7 +45,9 @@
                     <input id="net_weight" name = "net_weight" type="text" value="{{ product.net_weight }}">
                     
                     <div id="material">
-                        <button type="button" id="dropdown-btn">Matériau</button>                
+                        <button type="button" id="dropdown-btn" data-value="{{ product.materiaux if product.materiaux else '' }}">
+                            Matériau
+                        </button>
                         <ul id="dropdown-menu" data-value="material" class="dropdown-content">
                             <li data-value="Verre">Verre</li>
                             <li data-value="Cristal">Cristal</li>
@@ -57,6 +60,8 @@
 
                         </ul>
                     </div>
+                    <input type="hidden" id="material-value" name="materiaux" value="">
+
                     
                     <button type="submit" id="submit-btn" class="glass-effect" >Sauvegarder</button>
 

@@ -218,31 +218,30 @@ main{
     width: 20%;
 }
 
+#search-pagi-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #search-pagination{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-#searchPageUl{
     padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 400px;
     height: 40px;
 }
 
-#searchPageUl a{
+#search-pagination a{
     text-decoration: none;
     color: #151613;
     padding: 0 10px;
     cursor: grab;
 }
 
-#search-pagination-numbers a {
-    width: 20%;
+.search-pagination-btn {
+    width: calc((100% / 3) 20%);
 }
 
 #overlay{

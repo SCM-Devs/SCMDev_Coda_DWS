@@ -134,12 +134,12 @@ def submit():
     
     updates = {
         "brand": request.form.get("brand"),
-        "name": request.form.get("name-product"),
         "categorie": request.form.get("category"),
         "nom_d_origine": request.form.get("nom_d_origine"),
         "net_weight": request.form.get("net_weight"),
         "volume": request.form.get("volume"),
         "dimensions": request.form.get("dimensions"),
+        "materiaux": request.form.get("materiaux")
     }
 
     updated = False
